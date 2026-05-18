@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>薏米的好习惯养成游戏</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --mc-green: #5D8C3E;
+  --mc-dark-green: #3B5E28;
+  --mc-brown: #8B6914;
+  --mc-dark-brown: #6B4F12;
+  --mc-stone: #9E9E9E;
+  --mc-dark-stone: #7A7A7A;
+  --mc-sky: #87CEEB;
+  --mc-gold: #FFD700;
+  --mc-red: #E74C3C;
+  --mc-white: #F5F5F0;
+  --mc-black: #2C2C2C;
+  --mc-dirt: #8B5E3C;
+  --mc-grass-top: #6ABF4B;
+  --pixel-border: 3px solid var(--mc-black);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Press Start 2P', 'Microsoft YaHei', sans-serif;
+  background: var(--mc-sky);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.ground {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: var(--mc-dirt);
+  border-top: 8px solid var(--mc-grass-top);
+  z-index: 0;
+}
+
+.cloud {
+  position: fixed;
+  background: white;
+  border-radius: 0;
+  opacity: 0.9;
+  z-index: 0;
+  animation: float-cloud 30s linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+}
+.cloud-1 { width: 80px; height: 24px; top: 40px; left: -100px; animation-duration: 35s; }
+.cloud-1::before { width: 40px; height: 20px; top: -16px; left: 12px; }
+.cloud-1::after { width: 30px; height: 14px; top: -10px; left: 40px; }
+.cloud-2 { width: 60px; height: 20px; top: 80px; left: -60px; animation-duration: 45s; animation-delay: 10s; }
+.cloud-2::before { width: 30px; height: 16px; top: -12px; left: 8px; }
+.cloud-2::after { width: 24px; height: 12px; top: -8px; left: 28px; }
+.cloud-3 { width: 70px; height: 22px; top: 30px; left: -80px; animation-duration: 40s; animation-delay: 20s; }
+.cloud-3::before { width: 36px; height: 18px; top: -14px; left: 10px; }
+.cloud-3::after { width: 28px; height: 12px; top: -8px; left: 36px; }
+
+@keyframes float-cloud {
+  from { transform: translateX(-120px); }
+  to { transform: translateX(calc(100vw + 120px)); }
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 12px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
+  position: relative;
+  image-rendering: pixelated;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 2px solid var(--mc-brown);
+  pointer-events: none;
+}
+.header h1 {
+  color: var(--mc-gold);
+  font-size: 16px;
+  text-shadow: 2px 2px 0 var(--mc-black);
+  line-height: 1.6;
+}
+.header .subtitle {
+  color: var(--mc-white);
+  font-size: 8px;
+  margin-top: 8px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.stat-box {
+  flex: 1;
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 10px 8px;
+  text-align: center;
+  position: relative;
+}
+.stat-box::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 1px solid var(--mc-brown);
+  pointer-events: none;
+}
+.stat-label {
+  color: var(--mc-stone);
+  font-size: 7px;
+  margin-bottom: 6px;
+}
+.stat-value {
+  color: var(--mc-gold);
+  font-size: 14px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.stat-value.stars { color: #FFD700; }
+.stat-value.streak { color: #FF6B6B; }
+.stat-value.level { color: #6BFF6B; }
+
+/* XP Bar */
+.xp-bar-container {
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 8px;
+  margin-bottom: 16px;
+  position: relative;
+}
+.xp-bar-container::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px; right: 3px; bottom: 3px;
+  border: 1px solid var(--mc-brown);
+  pointer-events: none;
+}
+.xp-label {
+  color: var(--mc-stone);
+  font-size: 7px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.xp-bar-outer {
+  background: var(--mc-black);
+  height: 16px;
+  border: 2px solid var(--mc-dark-stone);
+  position: relative;
+}
+.xp-bar-inner {
+  background: linear-gradient(180deg, #6BFF6B 0%, #3EAF3E 50%, #2D8B2D 100%);
+  height: 100%;
+  transition: width 0.5s ease;
+  position: relative;
+}
+.xp-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 0; right: 0; height: 4px;
+  background: rgba(255,255,255,0.3);
+}
+.xp-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 7px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+  z-index: 2;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0;
+}
+.tab {
+  flex: 1;
+  background: var(--mc-stone);
+  border: var(--pixel-border);
+  border-bottom: none;
+  padding: 10px 4px;
+  text-align: center;
+  color: var(--mc-black);
+  font-size: 8px;
+  font-family: 'Press Start 2P', sans-serif;
+  cursor: pointer;
+  position: relative;
+  top: 3px;
+}
+.tab.active {
+  background: var(--mc-dark-brown);
+  color: var(--mc-gold);
+  top: 0;
+  padding-bottom: 13px;
+  z-index: 2;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Panel */
+.panel {
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 12px;
+  min-height: 300px;
+  position: relative;
+}
+.panel::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 2px solid var(--mc-brown);
+  pointer-events: none;
+}
+.panel-content {
+  position: relative;
+  z-index: 1;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Quest items */
+.quest-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid var(--mc-brown);
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.quest-item:active {
+  transform: scale(0.97);
+}
+.quest-item.completed {
+  opacity: 0.5;
+  background: rgba(0,100,0,0.3);
+}
+.quest-checkbox {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--mc-stone);
+  background: var(--mc-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+.quest-item.completed .quest-checkbox {
+  background: var(--mc-dark-green);
+  border-color: var(--mc-green);
+}
+.quest-info {
+  flex: 1;
+}
+.quest-name {
+  color: var(--mc-white);
+  font-size: 9px;
+  line-height: 1.6;
+}
+.quest-item.completed .quest-name {
+  text-decoration: line-through;
+  color: var(--mc-stone);
+}
+.quest-points {
+  color: var(--mc-gold);
+  font-size: 8px;
+  flex-shrink: 0;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Reward items */
+.reward-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid var(--mc-brown);
+  padding: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.reward-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--mc-black);
+  border: 2px solid var(--mc-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.reward-info { flex: 1; }
+.reward-name {
+  color: var(--mc-white);
+  font-size: 9px;
+  line-height: 1.6;
+}
+.reward-cost {
+  color: var(--mc-gold);
+  font-size: 8px;
+  margin-top: 4px;
+}
+.reward-btn {
+  background: var(--mc-green);
+  border: 2px solid var(--mc-dark-green);
+  color: white;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 7px;
+  padding: 6px 10px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.reward-btn:disabled {
+  background: var(--mc-dark-stone);
+  border-color: var(--mc-stone);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.reward-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Settings */
+.settings-section {
+  margin-bottom: 16px;
+}
+.settings-title {
+  color: var(--mc-gold);
+  font-size: 9px;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.settings-input-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.pixel-input {
+  flex: 1;
+  background: var(--mc-black);
+  border: 2px solid var(--mc-stone);
+  color: var(--mc-white);
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-size: 13px;
+  padding: 8px;
+  outline: none;
+}
+.pixel-input:focus {
+  border-color: var(--mc-gold);
+}
+.pixel-input-small {
+  width: 60px;
+  background: var(--mc-black);
+  border: 2px solid var(--mc-stone);
+  color: var(--mc-gold);
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 10px;
+  padding: 8px 4px;
+  text-align: center;
+  outline: none;
+}
+.pixel-input-small:focus {
+  border-color: var(--mc-gold);
+}
+.pixel-btn {
+  background: var(--mc-green);
+  border: 2px solid var(--mc-dark-green);
+  color: white;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 var(--mc-black);
+  white-space: nowrap;
+}
+.pixel-btn:active { transform: scale(0.95); }
+.pixel-btn.danger {
+  background: var(--mc-red);
+  border-color: #C0392B;
+}
+.pixel-btn.small {
+  font-size: 7px;
+  padding: 4px 8px;
+}
+
+.editable-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid var(--mc-brown);
+  padding: 8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.editable-item .item-name {
+  flex: 1;
+  color: var(--mc-white);
+  font-size: 9px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  line-height: 1.5;
+}
+.editable-item .item-points {
+  color: var(--mc-gold);
+  font-size: 8px;
+  font-family: 'Press Start 2P', sans-serif;
+}
+
+/* Celebration overlay */
+.celebration {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.celebration.show {
+  display: flex;
+  animation: fadeIn 0.3s;
+}
+.celebration-box {
+  background: var(--mc-dark-brown);
+  border: 4px solid var(--mc-gold);
+  padding: 24px;
+  text-align: center;
+  max-width: 320px;
+  margin: 0 16px;
+}
+.celebration-emoji {
+  font-size: 48px;
+  margin-bottom: 12px;
+  animation: bounce 0.5s ease infinite alternate;
+}
+.celebration-text {
+  color: var(--mc-gold);
+  font-size: 12px;
+  line-height: 2;
+  text-shadow: 2px 2px 0 var(--mc-black);
+}
+.celebration-sub {
+  color: var(--mc-white);
+  font-size: 8px;
+  margin-top: 8px;
+  line-height: 1.8;
+}
+.celebration-close {
+  margin-top: 16px;
+  background: var(--mc-green);
+  border: 2px solid var(--mc-dark-green);
+  color: white;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 10px;
+  padding: 10px 24px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Level up overlay */
+.level-up {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 101;
+  align-items: center;
+  justify-content: center;
+}
+.level-up.show {
+  display: flex;
+}
+.level-up-box {
+  text-align: center;
+  animation: levelUpAnim 0.6s ease;
+}
+.level-up-text {
+  color: var(--mc-gold);
+  font-size: 20px;
+  text-shadow: 3px 3px 0 var(--mc-black);
+  animation: pulse 0.5s ease infinite alternate;
+}
+.level-up-num {
+  color: #6BFF6B;
+  font-size: 48px;
+  margin: 16px 0;
+  text-shadow: 4px 4px 0 var(--mc-black);
+}
+.level-up-sub {
+  color: var(--mc-white);
+  font-size: 9px;
+  line-height: 1.8;
+}
+
+/* Particles */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 102;
+  font-size: 20px;
+  animation: particleFall 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+@keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+@keyframes levelUpAnim { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes particleFall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(200px) rotate(360deg); }
+}
+
+/* History section */
+.history-item {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--mc-brown);
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.history-date {
+  color: var(--mc-stone);
+  font-size: 7px;
+}
+.history-detail {
+  color: var(--mc-white);
+  font-size: 7px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.history-points {
+  color: var(--mc-gold);
+  font-size: 7px;
+}
+
+/* Reset button area */
+.reset-area {
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 2px solid var(--mc-brown);
+  text-align: center;
+}
+.reset-hint {
+  color: var(--mc-stone);
+  font-size: 7px;
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--mc-stone);
+  font-size: 8px;
+  line-height: 2;
+}
+
+/* Daily reset notice */
+.daily-notice {
+  background: rgba(107, 255, 107, 0.15);
+  border: 2px solid var(--mc-green);
+  padding: 8px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: var(--mc-white);
+  font-size: 7px;
+  line-height: 1.8;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+
+@media (max-width: 360px) {
+  .header h1 { font-size: 13px; }
+  .stat-value { font-size: 12px; }
+  .quest-name { font-size: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div class="cloud cloud-1"></div>
+<div class="cloud cloud-2"></div>
+<div class="cloud cloud-3"></div>
+<div class="ground"></div>
+
+<div class="container">
+  <div class="header">
+    <h1>薏米的好习惯养成游戏</h1>
+    <div class="subtitle">YIMI GOOD HABITS</div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-box">
+      <div class="stat-label">&#11088; 星星</div>
+      <div class="stat-value stars" id="totalStars">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">&#128293; 连续</div>
+      <div class="stat-value streak" id="streak">0天</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">&#9889; 等级</div>
+      <div class="stat-value level" id="level">Lv.1</div>
+    </div>
+  </div>
+
+  <div class="xp-bar-container">
+    <div class="xp-label">&#9889; 经验值</div>
+    <div class="xp-bar-outer">
+      <div class="xp-bar-inner" id="xpBar" style="width: 0%"></div>
+      <div class="xp-text" id="xpText">0 / 50</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="quests">&#9876; 任务</div>
+    <div class="tab" data-tab="rewards">&#127873; 奖励</div>
+    <div class="tab" data-tab="settings">&#9881; 设置</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-content">
+      <!-- Quests Tab -->
+      <div class="tab-panel active" id="tab-quests">
+        <div id="dailyNotice"></div>
+        <div id="questList"></div>
+        <div id="questEmpty" class="empty-state" style="display:none;">
+          还没有任务哦！<br>去「设置」里添加吧 &#128072;
+        </div>
+      </div>
+
+      <!-- Rewards Tab -->
+      <div class="tab-panel" id="tab-rewards">
+        <div id="rewardList"></div>
+        <div id="rewardEmpty" class="empty-state" style="display:none;">
+          还没有奖励哦！<br>去「设置」里添加吧 &#128072;
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div class="tab-panel" id="tab-settings">
+        <div class="settings-section">
+          <div class="settings-title">&#9876; 管理任务</div>
+          <div class="settings-input-row">
+            <input class="pixel-input" id="newQuestName" placeholder="任务名称" maxlength="20">
+            <input class="pixel-input-small" id="newQuestPoints" placeholder="★" type="number" min="1" max="99" value="5">
+            <button class="pixel-btn" onclick="addQuest()">+</button>
+          </div>
+          <div id="questSettingsList"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-title">&#127873; 管理奖励</div>
+          <div class="settings-input-row">
+            <input class="pixel-input" id="newRewardName" placeholder="奖励名称" maxlength="20">
+            <input class="pixel-input-small" id="newRewardCost" placeholder="★" type="number" min="1" max="999" value="30">
+            <button class="pixel-btn" onclick="addReward()">+</button>
+          </div>
+          <div id="rewardSettingsList"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-title">&#128220; 历史记录</div>
+          <div id="historyList"></div>
+          <div id="historyEmpty" class="empty-state">还没有记录哦</div>
+        </div>
+
+        <div class="reset-area">
+          <div class="reset-hint">&#9888; 重置会清除所有数据</div>
+          <button class="pixel-btn danger" onclick="resetAll()">重置</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Celebration overlay -->
+<div class="celebration" id="celebration">
+  <div class="celebration-box">
+    <div class="celebration-emoji" id="celebEmoji">&#11088;</div>
+    <div class="celebration-text" id="celebText"></div>
+    <div class="celebration-sub" id="celebSub"></div>
+    <button class="celebration-close" onclick="closeCelebration()">OK!</button>
+  </div>
+</div>
+
+<!-- Level up overlay -->
+<div class="level-up" id="levelUp">
+  <div class="level-up-box">
+    <div class="level-up-text">LEVEL UP!</div>
+    <div class="level-up-num" id="levelUpNum"></div>
+    <div class="level-up-sub">&#127775; 冒险等级提升！继续加油！&#127775;</div>
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = 'yimi_adventure';
+const XP_PER_LEVEL = 50;
+const LEVEL_TITLES = [
+  '新手冒险家', '木剑勇士', '石剑战士', '铁剑骑士',
+  '金剑英雄', '钻石大师', '下界之星', '末影传说'
+];
+
+let data = loadData();
+
+// Sound effects using Web Audio API
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playNote(freq, duration, type = 'square', volume = 0.15, delay = 0) {
+  const ctx = getAudioCtx();
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(volume, ctx.currentTime + delay);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + delay + duration);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(ctx.currentTime + delay);
+  osc.stop(ctx.currentTime + delay + duration);
+}
+
+function soundComplete() {
+  playNote(523, 0.1, 'square', 0.12, 0);
+  playNote(659, 0.1, 'square', 0.12, 0.08);
+  playNote(784, 0.15, 'square', 0.12, 0.16);
+  playNote(1047, 0.25, 'square', 0.10, 0.26);
+}
+
+function soundAllDone() {
+  playNote(523, 0.12, 'square', 0.12, 0);
+  playNote(659, 0.12, 'square', 0.12, 0.1);
+  playNote(784, 0.12, 'square', 0.12, 0.2);
+  playNote(1047, 0.12, 'square', 0.12, 0.3);
+  playNote(1175, 0.12, 'square', 0.12, 0.4);
+  playNote(1319, 0.3, 'square', 0.14, 0.5);
+  playNote(1047, 0.15, 'triangle', 0.08, 0.55);
+  playNote(1319, 0.4, 'triangle', 0.10, 0.7);
+}
+
+function soundLevelUp() {
+  const notes = [523, 659, 784, 1047, 784, 1047, 1319, 1568];
+  notes.forEach((freq, i) => {
+    playNote(freq, 0.15, 'square', 0.12, i * 0.09);
+  });
+  playNote(1568, 0.5, 'triangle', 0.10, notes.length * 0.09);
+}
+
+function soundRedeem() {
+  playNote(880, 0.15, 'triangle', 0.12, 0);
+  playNote(1109, 0.15, 'triangle', 0.12, 0.12);
+  playNote(1319, 0.3, 'triangle', 0.14, 0.24);
+}
+
+function soundUndo() {
+  playNote(400, 0.12, 'square', 0.08, 0);
+  playNote(300, 0.18, 'square', 0.08, 0.1);
+}
+
+function defaultData() {
+  return {
+    stars: 0,
+    xp: 0,
+    level: 1,
+    streak: 0,
+    lastCompleteDate: null,
+    lastActiveDate: null,
+    quests: [],
+    rewards: [],
+    todayCompleted: {},
+    todayDate: getToday(),
+    history: []
+  };
+}
+
+function getToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultData();
+    const d = JSON.parse(raw);
+    if (d.todayDate !== getToday()) {
+      checkStreak(d);
+      d.todayCompleted = {};
+      d.todayDate = getToday();
+    }
+    return d;
+  } catch(e) {
+    return defaultData();
+  }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function checkStreak(d) {
+  if (!d.lastCompleteDate) return;
+  const last = new Date(d.lastCompleteDate);
+  const today = new Date(getToday());
+  const diff = Math.floor((today - last) / 86400000);
+  if (diff > 1) {
+    d.streak = 0;
+  }
+}
+
+function isTodayAllDone() {
+  if (data.quests.length === 0) return false;
+  return data.quests.every(q => data.todayCompleted[q.id]);
+}
+
+// Tabs
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Render
+function render() {
+  renderQuests();
+  renderRewards();
+  renderSettings();
+  renderStats();
+  renderHistory();
+}
+
+function renderStats() {
+  document.getElementById('totalStars').textContent = data.stars;
+  document.getElementById('streak').textContent = data.streak + '天';
+  document.getElementById('level').textContent = 'Lv.' + data.level;
+
+  const xpForNext = data.level * XP_PER_LEVEL;
+  const pct = Math.min(100, (data.xp / xpForNext) * 100);
+  document.getElementById('xpBar').style.width = pct + '%';
+  document.getElementById('xpText').textContent = data.xp + ' / ' + xpForNext;
+}
+
+function renderQuests() {
+  const list = document.getElementById('questList');
+  const empty = document.getElementById('questEmpty');
+  const notice = document.getElementById('dailyNotice');
+
+  if (data.quests.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    notice.innerHTML = '';
+    return;
+  }
+
+  empty.style.display = 'none';
+  const done = data.quests.filter(q => data.todayCompleted[q.id]).length;
+  const total = data.quests.length;
+
+  if (isTodayAllDone()) {
+    notice.innerHTML = '<div class="daily-notice">&#127942; 今天的任务全部完成啦！太棒了！</div>';
+  } else {
+    notice.innerHTML = `<div class="daily-notice">&#9876; 今日进度: ${done} / ${total}</div>`;
+  }
+
+  list.innerHTML = data.quests.map(q => {
+    const done = data.todayCompleted[q.id];
+    return `
+      <div class="quest-item ${done ? 'completed' : ''}" onclick="toggleQuest('${q.id}')">
+        <div class="quest-checkbox">${done ? '&#10003;' : ''}</div>
+        <div class="quest-info">
+          <div class="quest-name">${escHtml(q.name)}</div>
+        </div>
+        <div class="quest-points">&#11088;${q.points}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderRewards() {
+  const list = document.getElementById('rewardList');
+  const empty = document.getElementById('rewardEmpty');
+
+  if (data.rewards.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = data.rewards.map(r => {
+    const canAfford = data.stars >= r.cost;
+    return `
+      <div class="reward-item">
+        <div class="reward-icon">${r.icon || '&#127873;'}</div>
+        <div class="reward-info">
+          <div class="reward-name">${escHtml(r.name)}</div>
+          <div class="reward-cost">&#11088; ${r.cost}</div>
+        </div>
+        <button class="reward-btn" ${canAfford ? '' : 'disabled'} onclick="redeemReward('${r.id}')">兑换</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderSettings() {
+  const qList = document.getElementById('questSettingsList');
+  qList.innerHTML = data.quests.map(q => `
+    <div class="editable-item">
+      <span class="item-name">${escHtml(q.name)}</span>
+      <span class="item-points">&#11088;${q.points}</span>
+      <button class="pixel-btn danger small" onclick="removeQuest('${q.id}')">&#10005;</button>
+    </div>
+  `).join('');
+
+  const rList = document.getElementById('rewardSettingsList');
+  rList.innerHTML = data.rewards.map(r => `
+    <div class="editable-item">
+      <span class="item-name">${escHtml(r.name)}</span>
+      <span class="item-points">&#11088;${r.cost}</span>
+      <button class="pixel-btn danger small" onclick="removeReward('${r.id}')">&#10005;</button>
+    </div>
+  `).join('');
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+  const recent = data.history.slice(-20).reverse();
+
+  if (recent.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = recent.map(h => `
+    <div class="history-item">
+      <span class="history-date">${h.date}</span>
+      <span class="history-detail">${escHtml(h.text)}</span>
+      <span class="history-points" style="color:${h.points > 0 ? 'var(--mc-gold)' : 'var(--mc-red)'}">
+        ${h.points > 0 ? '+' : ''}${h.points}&#11088;
+      </span>
+    </div>
+  `).join('');
+}
+
+// Actions
+function toggleQuest(id) {
+  const quest = data.quests.find(q => q.id === id);
+  if (!quest) return;
+
+  if (data.todayCompleted[id]) {
+    delete data.todayCompleted[id];
+    data.stars -= quest.points;
+    data.xp -= quest.points;
+    if (data.xp < 0) data.xp = 0;
+    if (data.stars < 0) data.stars = 0;
+    data.history.push({
+      date: getToday(),
+      text: '撤销: ' + quest.name,
+      points: -quest.points
+    });
+    soundUndo();
+  } else {
+    data.todayCompleted[id] = true;
+    data.stars += quest.points;
+    data.xp += quest.points;
+    data.lastActiveDate = getToday();
+    data.history.push({
+      date: getToday(),
+      text: quest.name,
+      points: quest.points
+    });
+
+    spawnParticles();
+    soundComplete();
+    showCelebration(
+      '&#11088;',
+      `+${quest.points} &#11088;`,
+      quest.name + ' 完成！'
+    );
+
+    checkLevelUp();
+
+    if (isTodayAllDone()) {
+      const wasAllDone = data.lastCompleteDate === getToday();
+      if (!wasAllDone) {
+        data.lastCompleteDate = getToday();
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth()+1).padStart(2,'0')}-${String(yesterday.getDate()).padStart(2,'0')}`;
+
+        if (data.lastCompleteDate && data.history.length > 0) {
+          const prevComplete = data.history.filter(h => h.date === yStr && h.points > 0).length > 0;
+          if (prevComplete || data.streak > 0) {
+            data.streak++;
+          } else {
+            data.streak = 1;
+          }
+        } else {
+          data.streak = 1;
+        }
+
+        setTimeout(() => {
+          soundAllDone();
+          showCelebration(
+            '&#127942;',
+            '今日全部完成！',
+            `连续 ${data.streak} 天 &#128293; 太厉害了！`
+          );
+        }, 1500);
+      }
+    }
+  }
+
+  saveData();
+  render();
+}
+
+function checkLevelUp() {
+  const xpNeeded = data.level * XP_PER_LEVEL;
+  if (data.xp >= xpNeeded) {
+    data.xp -= xpNeeded;
+    data.level++;
+    saveData();
+
+    setTimeout(() => {
+      showLevelUp(data.level);
+    }, 800);
+  }
+}
+
+function showLevelUp(level) {
+  const el = document.getElementById('levelUp');
+  document.getElementById('levelUpNum').textContent = 'Lv.' + level;
+  el.classList.add('show');
+  spawnParticles(30);
+  soundLevelUp();
+
+  setTimeout(() => {
+    el.classList.remove('show');
+  }, 2500);
+}
+
+function redeemReward(id) {
+  const reward = data.rewards.find(r => r.id === id);
+  if (!reward || data.stars < reward.cost) return;
+
+  if (!confirm(`确定要用 ${reward.cost} 颗星星兑换「${reward.name}」吗？`)) return;
+
+  data.stars -= reward.cost;
+  data.history.push({
+    date: getToday(),
+    text: '兑换: ' + reward.name,
+    points: -reward.cost
+  });
+
+  soundRedeem();
+  showCelebration(
+    '&#127873;',
+    '奖励已兑换！',
+    reward.name
+  );
+
+  saveData();
+  render();
+}
+
+function addQuest() {
+  const nameInput = document.getElementById('newQuestName');
+  const pointsInput = document.getElementById('newQuestPoints');
+  const name = nameInput.value.trim();
+  const points = parseInt(pointsInput.value) || 5;
+
+  if (!name) return;
+
+  data.quests.push({
+    id: 'q_' + Date.now(),
+    name: name,
+    points: Math.max(1, Math.min(99, points))
+  });
+
+  nameInput.value = '';
+  pointsInput.value = '5';
+  saveData();
+  render();
+}
+
+function removeQuest(id) {
+  if (!confirm('确定删除这个任务吗？')) return;
+  data.quests = data.quests.filter(q => q.id !== id);
+  delete data.todayCompleted[id];
+  saveData();
+  render();
+}
+
+function addReward() {
+  const nameInput = document.getElementById('newRewardName');
+  const costInput = document.getElementById('newRewardCost');
+  const name = nameInput.value.trim();
+  const cost = parseInt(costInput.value) || 30;
+
+  if (!name) return;
+
+  const icons = ['&#127873;', '&#127846;', '&#127836;', '&#127918;', '&#128187;', '&#127908;', '&#9917;', '&#127947;'];
+  const icon = icons[data.rewards.length % icons.length];
+
+  data.rewards.push({
+    id: 'r_' + Date.now(),
+    name: name,
+    cost: Math.max(1, Math.min(999, cost)),
+    icon: icon
+  });
+
+  nameInput.value = '';
+  costInput.value = '30';
+  saveData();
+  render();
+}
+
+function removeReward(id) {
+  if (!confirm('确定删除这个奖励吗？')) return;
+  data.rewards = data.rewards.filter(r => r.id !== id);
+  saveData();
+  render();
+}
+
+function resetAll() {
+  if (!confirm('确定要重置所有数据吗？星星、等级、连续天数都会清零！')) return;
+  if (!confirm('真的确定吗？这个操作不可撤销！')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  data = defaultData();
+  saveData();
+  render();
+}
+
+// Celebration
+function showCelebration(emoji, text, sub) {
+  const el = document.getElementById('celebration');
+  document.getElementById('celebEmoji').innerHTML = emoji;
+  document.getElementById('celebText').innerHTML = text;
+  document.getElementById('celebSub').innerHTML = sub;
+  el.classList.add('show');
+}
+
+function closeCelebration() {
+  document.getElementById('celebration').classList.remove('show');
+}
+
+// Particles
+function spawnParticles(count = 15) {
+  const emojis = ['&#11088;', '&#10024;', '&#127775;', '&#128171;', '&#9889;'];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+    p.style.left = (Math.random() * 100) + 'vw';
+    p.style.top = (Math.random() * 40 + 10) + 'vh';
+    p.style.animationDelay = (Math.random() * 0.5) + 's';
+    p.style.animationDuration = (1 + Math.random()) + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 2000);
+  }
+}
+
+function escHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// Enter key support for inputs
+document.getElementById('newQuestName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addQuest();
+});
+document.getElementById('newRewardName').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addReward();
+});
+
+// Init
+render();
+</script>
+</body>
+</html>
