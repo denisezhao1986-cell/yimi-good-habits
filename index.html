@@ -21,6 +21,8 @@
   --mc-black: #2C2C2C;
   --mc-dirt: #8B5E3C;
   --mc-grass-top: #6ABF4B;
+  --mc-diamond: #4AEDD9;
+  --mc-purple: #B57EDC;
   --pixel-border: 3px solid var(--mc-black);
 }
 
@@ -85,9 +87,9 @@ body {
 .header {
   background: var(--mc-dark-brown);
   border: var(--pixel-border);
-  padding: 16px;
+  padding: 12px;
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   position: relative;
   image-rendering: pixelated;
 }
@@ -100,22 +102,111 @@ body {
 }
 .header h1 {
   color: var(--mc-gold);
-  font-size: 16px;
+  font-size: 15px;
   text-shadow: 2px 2px 0 var(--mc-black);
   line-height: 1.6;
 }
 .header .subtitle {
   color: var(--mc-white);
-  font-size: 8px;
-  margin-top: 8px;
+  font-size: 7px;
+  margin-top: 6px;
   text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Hero card (character) */
+.hero-card {
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 12px;
+  margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-card::after {
+  content: '';
+  position: absolute;
+  top: 4px; left: 4px; right: 4px; bottom: 4px;
+  border: 2px solid var(--mc-brown);
+  pointer-events: none;
+}
+.hero-avatar {
+  width: 88px;
+  height: 110px;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.hero-pixels {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1px; height: 1px;
+  animation: hero-bob 1.2s steps(2) infinite;
+}
+@keyframes hero-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+.hero-info {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+.hero-title {
+  color: var(--mc-gold);
+  font-size: 11px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.hero-level {
+  color: #6BFF6B;
+  font-size: 9px;
+  margin-bottom: 8px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.xp-bar-outer {
+  background: var(--mc-black);
+  height: 16px;
+  border: 2px solid var(--mc-dark-stone);
+  position: relative;
+}
+.xp-bar-inner {
+  background: linear-gradient(180deg, #6BFF6B 0%, #3EAF3E 50%, #2D8B2D 100%);
+  height: 100%;
+  transition: width 0.5s ease;
+  position: relative;
+}
+.xp-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 0; right: 0; height: 4px;
+  background: rgba(255,255,255,0.3);
+}
+.xp-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 7px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+  z-index: 2;
+  white-space: nowrap;
+}
+.xp-hint {
+  color: var(--mc-stone);
+  font-size: 6px;
+  margin-top: 6px;
+  line-height: 1.6;
 }
 
 /* Stats bar */
 .stats-bar {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .stat-box {
   flex: 1;
@@ -146,54 +237,69 @@ body {
 .stat-value.streak { color: #FF6B6B; }
 .stat-value.level { color: #6BFF6B; }
 
-/* XP Bar */
-.xp-bar-container {
+/* Week calendar */
+.week-bar {
   background: var(--mc-dark-brown);
   border: var(--pixel-border);
   padding: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   position: relative;
 }
-.xp-bar-container::after {
+.week-bar::after {
   content: '';
   position: absolute;
   top: 3px; left: 3px; right: 3px; bottom: 3px;
   border: 1px solid var(--mc-brown);
   pointer-events: none;
 }
-.xp-label {
+.week-label {
   color: var(--mc-stone);
   font-size: 7px;
+  text-align: center;
   margin-bottom: 6px;
+}
+.week-days {
+  display: flex;
+  gap: 4px;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+.week-day {
+  flex: 1;
   text-align: center;
 }
-.xp-bar-outer {
-  background: var(--mc-black);
-  height: 16px;
-  border: 2px solid var(--mc-dark-stone);
+.week-day-name {
+  color: var(--mc-stone);
+  font-size: 6px;
+  margin-bottom: 4px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.week-day-block {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 40px;
+  margin: 0 auto;
+  border: 2px solid var(--mc-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: #555;
   position: relative;
-}
-.xp-bar-inner {
-  background: linear-gradient(180deg, #6BFF6B 0%, #3EAF3E 50%, #2D8B2D 100%);
-  height: 100%;
-  transition: width 0.5s ease;
-  position: relative;
-}
-.xp-bar-inner::after {
-  content: '';
-  position: absolute;
-  top: 2px; left: 0; right: 0; height: 4px;
-  background: rgba(255,255,255,0.3);
-}
-.xp-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 7px;
+  color: var(--mc-white);
   text-shadow: 1px 1px 0 var(--mc-black);
-  z-index: 2;
+}
+.week-day-block.all-done {
+  background: var(--mc-grass-top);
+  border-top: 4px solid #8FE070;
+}
+.week-day-block.partial {
+  background: var(--mc-dirt);
+}
+.week-day-block.today-pending {
+  background: #444;
+  border-color: var(--mc-gold);
 }
 
 /* Tabs */
@@ -207,7 +313,7 @@ body {
   background: var(--mc-stone);
   border: var(--pixel-border);
   border-bottom: none;
-  padding: 10px 4px;
+  padding: 10px 2px;
   text-align: center;
   color: var(--mc-black);
   font-size: 8px;
@@ -277,6 +383,7 @@ body {
   justify-content: center;
   flex-shrink: 0;
   font-size: 14px;
+  color: #6BFF6B;
 }
 .quest-item.completed .quest-checkbox {
   background: var(--mc-dark-green);
@@ -298,6 +405,27 @@ body {
   color: var(--mc-gold);
   font-size: 8px;
   flex-shrink: 0;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Chest banner on quest tab */
+.chest-banner {
+  background: rgba(255, 215, 0, 0.12);
+  border: 2px solid var(--mc-gold);
+  padding: 10px;
+  margin-bottom: 12px;
+  text-align: center;
+  cursor: pointer;
+  animation: chest-glow 1.5s ease infinite alternate;
+}
+@keyframes chest-glow {
+  from { box-shadow: 0 0 0 rgba(255,215,0,0.0); }
+  to { box-shadow: 0 0 16px rgba(255,215,0,0.5); }
+}
+.chest-banner-text {
+  color: var(--mc-gold);
+  font-size: 9px;
+  line-height: 1.8;
   text-shadow: 1px 1px 0 var(--mc-black);
 }
 
@@ -353,6 +481,86 @@ body {
   transform: scale(0.95);
 }
 
+/* Collection (ores) */
+.collection-title {
+  color: var(--mc-gold);
+  font-size: 9px;
+  margin: 4px 0 10px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.ore-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.ore-cell {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid var(--mc-brown);
+  padding: 8px 4px;
+  text-align: center;
+}
+.ore-cell.locked {
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+.ore-emoji { font-size: 20px; }
+.ore-name {
+  color: var(--mc-white);
+  font-size: 7px;
+  margin-top: 4px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.ore-count {
+  color: var(--mc-gold);
+  font-size: 7px;
+  margin-top: 3px;
+}
+.ore-rarity {
+  font-size: 6px;
+  margin-top: 2px;
+}
+
+/* Achievements */
+.ach-item {
+  background: rgba(0,0,0,0.3);
+  border: 2px solid var(--mc-brown);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ach-item.unlocked {
+  border-color: var(--mc-gold);
+  background: rgba(255,215,0,0.08);
+}
+.ach-item.locked { opacity: 0.45; }
+.ach-icon {
+  font-size: 20px;
+  width: 30px;
+  text-align: center;
+  flex-shrink: 0;
+}
+.ach-item.locked .ach-icon { filter: grayscale(1); }
+.ach-info { flex: 1; }
+.ach-name {
+  color: var(--mc-white);
+  font-size: 9px;
+  line-height: 1.5;
+}
+.ach-item.unlocked .ach-name { color: var(--mc-gold); }
+.ach-desc {
+  color: var(--mc-stone);
+  font-size: 7px;
+  margin-top: 3px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.ach-check {
+  color: #6BFF6B;
+  font-size: 12px;
+}
+
 /* Settings */
 .settings-section {
   margin-bottom: 16px;
@@ -377,6 +585,7 @@ body {
   font-size: 13px;
   padding: 8px;
   outline: none;
+  min-width: 0;
 }
 .pixel-input:focus {
   border-color: var(--mc-gold);
@@ -478,6 +687,13 @@ body {
   margin-top: 8px;
   line-height: 1.8;
 }
+.celebration-drop {
+  margin-top: 10px;
+  color: var(--mc-diamond);
+  font-size: 8px;
+  line-height: 1.8;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
 .celebration-close {
   margin-top: 16px;
   background: var(--mc-green);
@@ -524,6 +740,152 @@ body {
   font-size: 9px;
   line-height: 1.8;
 }
+.level-up-title {
+  color: var(--mc-diamond);
+  font-size: 12px;
+  margin-top: 12px;
+  text-shadow: 2px 2px 0 var(--mc-black);
+}
+
+/* Chest overlay */
+.chest-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 103;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.chest-overlay.show { display: flex; animation: fadeIn 0.3s; }
+.chest-title {
+  color: var(--mc-gold);
+  font-size: 13px;
+  text-shadow: 2px 2px 0 var(--mc-black);
+  margin-bottom: 24px;
+  line-height: 1.8;
+  text-align: center;
+}
+.chest-box {
+  width: 120px;
+  height: 100px;
+  position: relative;
+  cursor: pointer;
+  animation: chest-shake 0.8s ease infinite;
+}
+.chest-box.opened { animation: none; }
+@keyframes chest-shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+.chest-lid {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 40px;
+  background: linear-gradient(180deg, #A0742C 0%, #8B6914 100%);
+  border: 4px solid var(--mc-black);
+  transition: transform 0.4s ease;
+  transform-origin: bottom center;
+  z-index: 2;
+}
+.chest-box.opened .chest-lid {
+  transform: rotateX(110deg) translateY(-10px);
+}
+.chest-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 64px;
+  background: linear-gradient(180deg, #8B6914 0%, #6B4F12 100%);
+  border: 4px solid var(--mc-black);
+}
+.chest-lock {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 24px;
+  background: var(--mc-gold);
+  border: 3px solid var(--mc-black);
+  z-index: 3;
+}
+.chest-glow {
+  position: absolute;
+  top: 10px; left: 10px; right: 10px;
+  height: 30px;
+  background: radial-gradient(ellipse, rgba(255,255,150,0.9), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 1;
+}
+.chest-box.opened .chest-glow { opacity: 1; }
+.chest-hint {
+  color: var(--mc-white);
+  font-size: 8px;
+  margin-top: 24px;
+  animation: pulse 0.8s ease infinite alternate;
+}
+.chest-result {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
+}
+.chest-result.show { display: block; animation: levelUpAnim 0.5s ease; }
+.chest-result-rarity {
+  font-size: 11px;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 0 var(--mc-black);
+}
+.chest-result-prize {
+  color: var(--mc-gold);
+  font-size: 16px;
+  text-shadow: 2px 2px 0 var(--mc-black);
+  line-height: 1.8;
+}
+.chest-close {
+  margin-top: 20px;
+  background: var(--mc-green);
+  border: 2px solid var(--mc-dark-green);
+  color: white;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 10px;
+  padding: 10px 24px;
+  cursor: pointer;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+
+/* Achievement toast */
+.ach-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  background: var(--mc-dark-brown);
+  border: 3px solid var(--mc-gold);
+  padding: 12px 16px;
+  z-index: 105;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.4s ease;
+  max-width: 90vw;
+}
+.ach-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+.ach-toast-icon { font-size: 24px; }
+.ach-toast-text {
+  color: var(--mc-gold);
+  font-size: 8px;
+  line-height: 1.8;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.ach-toast-name {
+  color: var(--mc-white);
+  font-size: 9px;
+}
 
 /* Particles */
 .particle {
@@ -552,19 +914,23 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
 }
 .history-date {
   color: var(--mc-stone);
   font-size: 7px;
+  flex-shrink: 0;
 }
 .history-detail {
   color: var(--mc-white);
   font-size: 7px;
   font-family: 'Microsoft YaHei', sans-serif;
+  flex: 1;
 }
 .history-points {
   color: var(--mc-gold);
   font-size: 7px;
+  flex-shrink: 0;
 }
 
 /* Reset button area */
@@ -604,9 +970,10 @@ body {
 }
 
 @media (max-width: 360px) {
-  .header h1 { font-size: 13px; }
+  .header h1 { font-size: 12px; }
   .stat-value { font-size: 12px; }
   .quest-name { font-size: 8px; }
+  .hero-avatar { width: 72px; height: 96px; }
 }
 </style>
 </head>
@@ -623,6 +990,20 @@ body {
     <div class="subtitle">YIMI GOOD HABITS</div>
   </div>
 
+  <!-- Hero character card -->
+  <div class="hero-card">
+    <div class="hero-avatar"><div class="hero-pixels" id="heroPixels"></div></div>
+    <div class="hero-info">
+      <div class="hero-title" id="heroTitle">新手冒险家</div>
+      <div class="hero-level" id="heroLevel">Lv.1</div>
+      <div class="xp-bar-outer">
+        <div class="xp-bar-inner" id="xpBar" style="width: 0%"></div>
+        <div class="xp-text" id="xpText">0 / 50</div>
+      </div>
+      <div class="xp-hint" id="xpHint"></div>
+    </div>
+  </div>
+
   <div class="stats-bar">
     <div class="stat-box">
       <div class="stat-label">&#11088; 星星</div>
@@ -633,29 +1014,29 @@ body {
       <div class="stat-value streak" id="streak">0天</div>
     </div>
     <div class="stat-box">
-      <div class="stat-label">&#9889; 等级</div>
-      <div class="stat-value level" id="level">Lv.1</div>
+      <div class="stat-label">&#9935; 矿石</div>
+      <div class="stat-value level" id="oreTotal">0</div>
     </div>
   </div>
 
-  <div class="xp-bar-container">
-    <div class="xp-label">&#9889; 经验值</div>
-    <div class="xp-bar-outer">
-      <div class="xp-bar-inner" id="xpBar" style="width: 0%"></div>
-      <div class="xp-text" id="xpText">0 / 50</div>
-    </div>
+  <!-- Week calendar -->
+  <div class="week-bar">
+    <div class="week-label">&#128197; 最近7天</div>
+    <div class="week-days" id="weekDays"></div>
   </div>
 
   <div class="tabs">
-    <div class="tab active" data-tab="quests">&#9876; 任务</div>
-    <div class="tab" data-tab="rewards">&#127873; 奖励</div>
-    <div class="tab" data-tab="settings">&#9881; 设置</div>
+    <div class="tab active" data-tab="quests">&#9876;任务</div>
+    <div class="tab" data-tab="rewards">&#127873;奖励</div>
+    <div class="tab" data-tab="collection">&#128214;图鉴</div>
+    <div class="tab" data-tab="settings">&#9881;设置</div>
   </div>
 
   <div class="panel">
     <div class="panel-content">
       <!-- Quests Tab -->
       <div class="tab-panel active" id="tab-quests">
+        <div id="chestBanner"></div>
         <div id="dailyNotice"></div>
         <div id="questList"></div>
         <div id="questEmpty" class="empty-state" style="display:none;">
@@ -671,13 +1052,21 @@ body {
         </div>
       </div>
 
+      <!-- Collection Tab -->
+      <div class="tab-panel" id="tab-collection">
+        <div class="collection-title">&#9935; 矿石收集</div>
+        <div class="ore-grid" id="oreGrid"></div>
+        <div class="collection-title">&#127942; 成就徽章 <span id="achProgress" style="font-size:7px;color:var(--mc-stone);"></span></div>
+        <div id="achList"></div>
+      </div>
+
       <!-- Settings Tab -->
       <div class="tab-panel" id="tab-settings">
         <div class="settings-section">
           <div class="settings-title">&#9876; 管理任务</div>
           <div class="settings-input-row">
             <input class="pixel-input" id="newQuestName" placeholder="任务名称" maxlength="20">
-            <input class="pixel-input-small" id="newQuestPoints" placeholder="★" type="number" min="1" max="99" value="5">
+            <input class="pixel-input-small" id="newQuestPoints" placeholder="&#9733;" type="number" min="1" max="99" value="5">
             <button class="pixel-btn" onclick="addQuest()">+</button>
           </div>
           <div id="questSettingsList"></div>
@@ -687,7 +1076,7 @@ body {
           <div class="settings-title">&#127873; 管理奖励</div>
           <div class="settings-input-row">
             <input class="pixel-input" id="newRewardName" placeholder="奖励名称" maxlength="20">
-            <input class="pixel-input-small" id="newRewardCost" placeholder="★" type="number" min="1" max="999" value="30">
+            <input class="pixel-input-small" id="newRewardCost" placeholder="&#9733;" type="number" min="1" max="999" value="30">
             <button class="pixel-btn" onclick="addReward()">+</button>
           </div>
           <div id="rewardSettingsList"></div>
@@ -714,6 +1103,7 @@ body {
     <div class="celebration-emoji" id="celebEmoji">&#11088;</div>
     <div class="celebration-text" id="celebText"></div>
     <div class="celebration-sub" id="celebSub"></div>
+    <div class="celebration-drop" id="celebDrop"></div>
     <button class="celebration-close" onclick="closeCelebration()">OK!</button>
   </div>
 </div>
@@ -723,7 +1113,34 @@ body {
   <div class="level-up-box">
     <div class="level-up-text">LEVEL UP!</div>
     <div class="level-up-num" id="levelUpNum"></div>
+    <div class="level-up-title" id="levelUpTitle"></div>
     <div class="level-up-sub">&#127775; 冒险等级提升！继续加油！&#127775;</div>
+  </div>
+</div>
+
+<!-- Chest overlay -->
+<div class="chest-overlay" id="chestOverlay">
+  <div class="chest-title">&#127942; 今日任务全部完成！<br>获得一个神秘宝箱！</div>
+  <div class="chest-box" id="chestBox" onclick="openChest()">
+    <div class="chest-glow"></div>
+    <div class="chest-lid"></div>
+    <div class="chest-lock"></div>
+    <div class="chest-body"></div>
+  </div>
+  <div class="chest-hint" id="chestHint">&#128070; 点击宝箱打开！</div>
+  <div class="chest-result" id="chestResult">
+    <div class="chest-result-rarity" id="chestRarity"></div>
+    <div class="chest-result-prize" id="chestPrize"></div>
+    <button class="chest-close" onclick="closeChest()">收下啦！</button>
+  </div>
+</div>
+
+<!-- Achievement toast -->
+<div class="ach-toast" id="achToast">
+  <div class="ach-toast-icon" id="achToastIcon">&#127942;</div>
+  <div>
+    <div class="ach-toast-text">成就解锁！</div>
+    <div class="ach-toast-name" id="achToastName"></div>
   </div>
 </div>
 
@@ -734,10 +1151,42 @@ const LEVEL_TITLES = [
   '新手冒险家', '木剑勇士', '石剑战士', '铁剑骑士',
   '金剑英雄', '钻石大师', '下界之星', '末影传说'
 ];
+// 每个等级对应的剑刃颜色
+const SWORD_COLORS = [
+  '#8B5E3C', '#A0742C', '#9E9E9E', '#D8D8D8',
+  '#FFD700', '#4AEDD9', '#7A4A4A', '#B57EDC'
+];
+
+const ORES = [
+  { id: 'dirt',     name: '泥土块', emoji: '\u{1F7EB}', rate: 0.35, rarity: '常见',   color: '#8B5E3C' },
+  { id: 'coal',     name: '煤炭',   emoji: '⚫',    rate: 0.25, rarity: '常见',   color: '#444444' },
+  { id: 'iron',     name: '铁锭',   emoji: '⚪',    rate: 0.15, rarity: '少见',   color: '#D8D8D8' },
+  { id: 'gold',     name: '金锭',   emoji: '\u{1F7E1}', rate: 0.10, rarity: '少见',   color: '#FFD700' },
+  { id: 'redstone', name: '红石',   emoji: '\u{1F534}', rate: 0.07, rarity: '稀有',   color: '#E74C3C' },
+  { id: 'diamond',  name: '钻石',   emoji: '\u{1F48E}', rate: 0.06, rarity: '稀有',   color: '#4AEDD9' },
+  { id: 'emerald',  name: '绿宝石', emoji: '\u{1F7E2}', rate: 0.02, rarity: '传说',   color: '#50C878' }
+];
+
+const ACHIEVEMENTS = [
+  { id: 'first_quest',   name: '第一步',     desc: '完成第一个任务',      icon: '\u{1F463}', check: d => d.totalStarsEarned > 0 },
+  { id: 'streak3',       name: '三日坚持',   desc: '连续完成3天',         icon: '\u{1F525}', check: d => d.streak >= 3 },
+  { id: 'streak7',       name: '一周勇士',   desc: '连续完成7天',         icon: '⚔️',  check: d => d.streak >= 7 },
+  { id: 'streak14',      name: '半月骑士',   desc: '连续完成14天',        icon: '\u{1F6E1}️', check: d => d.streak >= 14 },
+  { id: 'streak30',      name: '月度传说',   desc: '连续完成30天',        icon: '\u{1F451}', check: d => d.streak >= 30 },
+  { id: 'stars100',      name: '百星收藏家', desc: '累计获得100颗星',     icon: '⭐',    check: d => d.totalStarsEarned >= 100 },
+  { id: 'stars500',      name: '星星大亨',   desc: '累计获得500颗星',     icon: '\u{1F31F}', check: d => d.totalStarsEarned >= 500 },
+  { id: 'level3',        name: '冒险新秀',   desc: '达到 Lv.3',           icon: '\u{1F5E1}️', check: d => d.level >= 3 },
+  { id: 'level6',        name: '钻石大师',   desc: '达到 Lv.6',           icon: '\u{1F48E}', check: d => d.level >= 6 },
+  { id: 'ore10',         name: '矿工学徒',   desc: '收集10个矿物',        icon: '⛏️',  check: d => totalOres(d) >= 10 },
+  { id: 'ore50',         name: '矿业大王',   desc: '收集50个矿物',        icon: '\u{1F3D7}️', check: d => totalOres(d) >= 50 },
+  { id: 'first_diamond', name: '钻石猎人',   desc: '挖到第一颗钻石',      icon: '\u{1F4A0}', check: d => (d.ores.diamond || 0) >= 1 },
+  { id: 'first_chest',   name: '开箱达人',   desc: '打开第一个宝箱',      icon: '\u{1F4E6}', check: d => (d.chestsOpened || 0) >= 1 },
+  { id: 'first_redeem',  name: '愿望成真',   desc: '兑换第一个奖励',      icon: '\u{1F381}', check: d => (d.redeemCount || 0) >= 1 }
+];
 
 let data = loadData();
 
-// Sound effects using Web Audio API
+// ===== Sound effects (Web Audio API) =====
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
 
@@ -798,8 +1247,32 @@ function soundUndo() {
   playNote(300, 0.18, 'square', 0.08, 0.1);
 }
 
+function soundOre() {
+  playNote(220, 0.06, 'square', 0.10, 0);
+  playNote(330, 0.06, 'square', 0.10, 0.06);
+  playNote(1760, 0.2, 'triangle', 0.10, 0.12);
+}
+
+function soundChestOpen() {
+  playNote(392, 0.12, 'square', 0.10, 0);
+  playNote(523, 0.12, 'square', 0.10, 0.12);
+  playNote(659, 0.12, 'square', 0.10, 0.24);
+  playNote(784, 0.12, 'square', 0.12, 0.36);
+  playNote(1047, 0.2, 'triangle', 0.12, 0.48);
+  playNote(1319, 0.3, 'triangle', 0.12, 0.6);
+  playNote(1568, 0.5, 'triangle', 0.14, 0.75);
+}
+
+function soundAchievement() {
+  playNote(659, 0.1, 'triangle', 0.12, 0);
+  playNote(880, 0.1, 'triangle', 0.12, 0.1);
+  playNote(1319, 0.35, 'triangle', 0.14, 0.2);
+}
+
+// ===== Data =====
 function defaultData() {
   return {
+    version: 2,
     stars: 0,
     xp: 0,
     level: 1,
@@ -810,8 +1283,31 @@ function defaultData() {
     rewards: [],
     todayCompleted: {},
     todayDate: getToday(),
-    history: []
+    history: [],
+    totalStarsEarned: 0,
+    ores: {},
+    achievements: [],
+    dailyRecord: {},
+    chestOpenedDate: null,
+    chestsOpened: 0,
+    redeemCount: 0
   };
+}
+
+function migrate(d) {
+  if (d.version >= 2) return d;
+  d.version = 2;
+  // 从历史记录推算累计星星
+  d.totalStarsEarned = (d.history || [])
+    .filter(h => h.points > 0)
+    .reduce((sum, h) => sum + h.points, 0);
+  d.ores = d.ores || {};
+  d.achievements = d.achievements || [];
+  d.dailyRecord = d.dailyRecord || {};
+  d.chestOpenedDate = d.chestOpenedDate || null;
+  d.chestsOpened = d.chestsOpened || 0;
+  d.redeemCount = d.redeemCount || 0;
+  return d;
 }
 
 function getToday() {
@@ -823,7 +1319,7 @@ function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return defaultData();
-    const d = JSON.parse(raw);
+    let d = migrate(JSON.parse(raw));
     if (d.todayDate !== getToday()) {
       checkStreak(d);
       d.todayCompleted = {};
@@ -854,7 +1350,78 @@ function isTodayAllDone() {
   return data.quests.every(q => data.todayCompleted[q.id]);
 }
 
-// Tabs
+function totalOres(d) {
+  return Object.values(d.ores || {}).reduce((a, b) => a + b, 0);
+}
+
+function updateDailyRecord() {
+  const done = data.quests.filter(q => data.todayCompleted[q.id]).length;
+  data.dailyRecord[getToday()] = {
+    done: done,
+    total: data.quests.length,
+    allDone: data.quests.length > 0 && done === data.quests.length
+  };
+  // 只保留最近60天
+  const keys = Object.keys(data.dailyRecord).sort();
+  while (keys.length > 60) {
+    delete data.dailyRecord[keys.shift()];
+  }
+}
+
+// ===== Pixel hero (box-shadow pixel art) =====
+function renderHero() {
+  const P = 5; // 像素大小
+  const swordIdx = Math.min(data.level - 1, SWORD_COLORS.length - 1);
+  const SW = SWORD_COLORS[swordIdx];
+  const H = '#5A3A22'; // 头发
+  const S = '#C68863'; // 皮肤
+  const W = '#FFFFFF'; // 眼白
+  const B = '#4A3AB5'; // 眼珠
+  const M = '#9C6B4A'; // 嘴部阴影
+  const T = '#00A8A8'; // 衣服
+  const PNT = '#4A3A8C'; // 裤子
+  const SH = '#555555'; // 鞋子
+  const HD = '#7A5230'; // 剑柄
+  const _ = null;
+
+  // 12列 x 20行：左4列是剑，右8列是角色
+  const art = [
+    [_,_,SW,_, H,H,H,H,H,H,H,H],
+    [_,_,SW,_, H,H,H,H,H,H,H,H],
+    [_,_,SW,_, H,S,S,S,S,S,S,H],
+    [_,_,SW,_, S,S,S,S,S,S,S,S],
+    [_,_,SW,_, S,W,B,S,S,B,W,S],
+    [_,_,SW,_, S,S,S,S,S,S,S,S],
+    [_,_,SW,_, S,S,M,M,M,M,S,S],
+    [_,SW,SW,SW, S,S,M,S,S,M,S,S],
+    [_,_,HD,_, T,T,T,T,T,T,T,T],
+    [_,_,HD,_, T,T,T,T,T,T,T,T],
+    [_,S,S,_, T,T,T,T,T,T,T,T],
+    [_,_,_,_, T,T,T,T,T,T,T,T],
+    [_,_,_,_, T,T,T,T,T,T,T,T],
+    [_,_,_,_, T,T,T,T,T,T,T,T],
+    [_,_,_,_, PNT,PNT,PNT,PNT,PNT,PNT,PNT,PNT],
+    [_,_,_,_, PNT,PNT,PNT,_,_,PNT,PNT,PNT],
+    [_,_,_,_, PNT,PNT,PNT,_,_,PNT,PNT,PNT],
+    [_,_,_,_, PNT,PNT,PNT,_,_,PNT,PNT,PNT],
+    [_,_,_,_, SH,SH,SH,_,_,SH,SH,SH],
+    [_,_,_,_, SH,SH,SH,_,_,SH,SH,SH]
+  ];
+
+  const shadows = [];
+  art.forEach((row, y) => {
+    row.forEach((color, x) => {
+      if (color) shadows.push(`${x*P}px ${y*P}px 0 0 ${color}`);
+    });
+  });
+
+  const el = document.getElementById('heroPixels');
+  el.style.width = P + 'px';
+  el.style.height = P + 'px';
+  el.style.boxShadow = shadows.join(',');
+}
+
+// ===== Tabs =====
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -864,24 +1431,85 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-// Render
+// ===== Render =====
 function render() {
   renderQuests();
   renderRewards();
+  renderCollection();
   renderSettings();
   renderStats();
+  renderWeek();
   renderHistory();
+  renderHero();
+  renderChestBanner();
 }
 
 function renderStats() {
   document.getElementById('totalStars').textContent = data.stars;
   document.getElementById('streak').textContent = data.streak + '天';
-  document.getElementById('level').textContent = 'Lv.' + data.level;
+  document.getElementById('oreTotal').textContent = totalOres(data);
+
+  const titleIdx = Math.min(data.level - 1, LEVEL_TITLES.length - 1);
+  document.getElementById('heroTitle').textContent = LEVEL_TITLES[titleIdx];
+  document.getElementById('heroLevel').textContent = 'Lv.' + data.level;
 
   const xpForNext = data.level * XP_PER_LEVEL;
   const pct = Math.min(100, (data.xp / xpForNext) * 100);
   document.getElementById('xpBar').style.width = pct + '%';
   document.getElementById('xpText').textContent = data.xp + ' / ' + xpForNext;
+
+  const nextTitleIdx = Math.min(data.level, LEVEL_TITLES.length - 1);
+  if (data.level < LEVEL_TITLES.length) {
+    document.getElementById('xpHint').textContent = '再攒 ' + (xpForNext - data.xp) + ' 经验升级为「' + LEVEL_TITLES[nextTitleIdx] + '」';
+  } else {
+    document.getElementById('xpHint').textContent = '已达最高称号！';
+  }
+}
+
+function renderWeek() {
+  const container = document.getElementById('weekDays');
+  const dayNames = ['日','一','二','三','四','五','六'];
+  let html = '';
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const rec = data.dailyRecord[key];
+    const isToday = i === 0;
+    let cls = '';
+    let mark = '';
+    if (rec && rec.allDone) {
+      cls = 'all-done';
+      mark = '✓';
+    } else if (rec && rec.done > 0) {
+      cls = 'partial';
+      mark = rec.done;
+    } else if (isToday) {
+      cls = 'today-pending';
+      mark = '?';
+    }
+    const name = isToday ? '今天' : '周' + dayNames[d.getDay()];
+    html += `
+      <div class="week-day">
+        <div class="week-day-name">${name}</div>
+        <div class="week-day-block ${cls}">${mark}</div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+}
+
+function renderChestBanner() {
+  const banner = document.getElementById('chestBanner');
+  if (isTodayAllDone() && data.chestOpenedDate !== getToday()) {
+    banner.innerHTML = `
+      <div class="chest-banner" onclick="showChestOverlay()">
+        <div class="chest-banner-text">&#127873; 你有一个未开启的宝箱！点我开箱 &#127873;</div>
+      </div>
+    `;
+  } else {
+    banner.innerHTML = '';
+  }
 }
 
 function renderQuests() {
@@ -903,7 +1531,7 @@ function renderQuests() {
   if (isTodayAllDone()) {
     notice.innerHTML = '<div class="daily-notice">&#127942; 今天的任务全部完成啦！太棒了！</div>';
   } else {
-    notice.innerHTML = `<div class="daily-notice">&#9876; 今日进度: ${done} / ${total}</div>`;
+    notice.innerHTML = `<div class="daily-notice">&#9876; 今日进度: ${done} / ${total}　还差 ${total - done} 个就能开宝箱！</div>`;
   }
 
   list.innerHTML = data.quests.map(q => {
@@ -941,6 +1569,41 @@ function renderRewards() {
           <div class="reward-cost">&#11088; ${r.cost}</div>
         </div>
         <button class="reward-btn" ${canAfford ? '' : 'disabled'} onclick="redeemReward('${r.id}')">兑换</button>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderCollection() {
+  // 矿石
+  const grid = document.getElementById('oreGrid');
+  grid.innerHTML = ORES.map(ore => {
+    const count = data.ores[ore.id] || 0;
+    const locked = count === 0;
+    return `
+      <div class="ore-cell ${locked ? 'locked' : ''}">
+        <div class="ore-emoji">${locked ? '❓' : ore.emoji}</div>
+        <div class="ore-name">${locked ? '???' : ore.name}</div>
+        <div class="ore-count">${locked ? '' : 'x' + count}</div>
+        <div class="ore-rarity" style="color:${ore.color}">${ore.rarity}</div>
+      </div>
+    `;
+  }).join('');
+
+  // 成就
+  const achList = document.getElementById('achList');
+  const unlockedCount = data.achievements.length;
+  document.getElementById('achProgress').textContent = `(${unlockedCount}/${ACHIEVEMENTS.length})`;
+  achList.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = data.achievements.includes(a.id);
+    return `
+      <div class="ach-item ${unlocked ? 'unlocked' : 'locked'}">
+        <div class="ach-icon">${a.icon}</div>
+        <div class="ach-info">
+          <div class="ach-name">${a.name}</div>
+          <div class="ach-desc">${a.desc}</div>
+        </div>
+        ${unlocked ? '<div class="ach-check">&#10003;</div>' : ''}
       </div>
     `;
   }).join('');
@@ -989,7 +1652,18 @@ function renderHistory() {
   `).join('');
 }
 
-// Actions
+// ===== Ore drop =====
+function rollOre() {
+  const roll = Math.random();
+  let acc = 0;
+  for (const ore of ORES) {
+    acc += ore.rate;
+    if (roll < acc) return ore;
+  }
+  return ORES[0];
+}
+
+// ===== Actions =====
 function toggleQuest(id) {
   const quest = data.quests.find(q => q.id === id);
   if (!quest) return;
@@ -1006,10 +1680,12 @@ function toggleQuest(id) {
       points: -quest.points
     });
     soundUndo();
+    updateDailyRecord();
   } else {
     data.todayCompleted[id] = true;
     data.stars += quest.points;
     data.xp += quest.points;
+    data.totalStarsEarned += quest.points;
     data.lastActiveDate = getToday();
     data.history.push({
       date: getToday(),
@@ -1017,12 +1693,19 @@ function toggleQuest(id) {
       points: quest.points
     });
 
+    // 挖矿掉落
+    const ore = rollOre();
+    data.ores[ore.id] = (data.ores[ore.id] || 0) + 1;
+
+    updateDailyRecord();
     spawnParticles();
     soundComplete();
+    setTimeout(soundOre, 500);
     showCelebration(
       '&#11088;',
       `+${quest.points} &#11088;`,
-      quest.name + ' 完成！'
+      quest.name + ' 完成！',
+      `&#9935; 还挖到了 ${ore.emoji} ${ore.name}（${ore.rarity}）！`
     );
 
     checkLevelUp();
@@ -1048,11 +1731,8 @@ function toggleQuest(id) {
 
         setTimeout(() => {
           soundAllDone();
-          showCelebration(
-            '&#127942;',
-            '今日全部完成！',
-            `连续 ${data.streak} 天 &#128293; 太厉害了！`
-          );
+          closeCelebration();
+          showChestOverlay();
         }, 1500);
       }
     }
@@ -1060,6 +1740,7 @@ function toggleQuest(id) {
 
   saveData();
   render();
+  checkAchievements();
 }
 
 function checkLevelUp() {
@@ -1078,15 +1759,114 @@ function checkLevelUp() {
 function showLevelUp(level) {
   const el = document.getElementById('levelUp');
   document.getElementById('levelUpNum').textContent = 'Lv.' + level;
+  const titleIdx = Math.min(level - 1, LEVEL_TITLES.length - 1);
+  document.getElementById('levelUpTitle').textContent = '✨ ' + LEVEL_TITLES[titleIdx] + ' ✨';
   el.classList.add('show');
   spawnParticles(30);
   soundLevelUp();
 
   setTimeout(() => {
     el.classList.remove('show');
+    render();
+    checkAchievements();
+  }, 2800);
+}
+
+// ===== Chest =====
+function showChestOverlay() {
+  if (data.chestOpenedDate === getToday()) return;
+  const overlay = document.getElementById('chestOverlay');
+  document.getElementById('chestBox').classList.remove('opened');
+  document.getElementById('chestResult').classList.remove('show');
+  document.getElementById('chestHint').style.display = 'block';
+  overlay.classList.add('show');
+}
+
+function openChest() {
+  if (data.chestOpenedDate === getToday()) return;
+  const box = document.getElementById('chestBox');
+  if (box.classList.contains('opened')) return;
+
+  box.classList.add('opened');
+  document.getElementById('chestHint').style.display = 'none';
+  soundChestOpen();
+  spawnParticles(25);
+
+  // 随机奖励
+  const roll = Math.random();
+  let rarity, rarityColor, prize;
+  if (roll < 0.01) {
+    rarity = '\u{1F451} 传说宝箱！'; rarityColor = 'var(--mc-purple)'; prize = 50;
+  } else if (roll < 0.10) {
+    rarity = '\u{1F48E} 史诗宝箱！'; rarityColor = 'var(--mc-diamond)'; prize = 20;
+  } else if (roll < 0.40) {
+    rarity = '\u{1F31F} 稀有宝箱！'; rarityColor = 'var(--mc-gold)'; prize = 10;
+  } else {
+    rarity = '\u{1F4E6} 普通宝箱'; rarityColor = 'var(--mc-white)'; prize = 5;
+  }
+
+  data.stars += prize;
+  data.totalStarsEarned += prize;
+  data.chestOpenedDate = getToday();
+  data.chestsOpened = (data.chestsOpened || 0) + 1;
+  data.history.push({
+    date: getToday(),
+    text: '宝箱奖励',
+    points: prize
+  });
+  saveData();
+
+  setTimeout(() => {
+    const rarityEl = document.getElementById('chestRarity');
+    rarityEl.textContent = rarity;
+    rarityEl.style.color = rarityColor;
+    document.getElementById('chestPrize').innerHTML = `+${prize} &#11088;`;
+    document.getElementById('chestResult').classList.add('show');
+  }, 500);
+}
+
+function closeChest() {
+  document.getElementById('chestOverlay').classList.remove('show');
+  render();
+  checkAchievements();
+}
+
+// ===== Achievements =====
+let achQueue = [];
+let achShowing = false;
+
+function checkAchievements() {
+  ACHIEVEMENTS.forEach(a => {
+    if (!data.achievements.includes(a.id) && a.check(data)) {
+      data.achievements.push(a.id);
+      achQueue.push(a);
+    }
+  });
+  saveData();
+  showNextAchToast();
+}
+
+function showNextAchToast() {
+  if (achShowing || achQueue.length === 0) return;
+  achShowing = true;
+  const a = achQueue.shift();
+  const toast = document.getElementById('achToast');
+  document.getElementById('achToastIcon').textContent = a.icon;
+  document.getElementById('achToastName').textContent = a.name + ' — ' + a.desc;
+  toast.classList.add('show');
+  soundAchievement();
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      achShowing = false;
+      renderCollection();
+      showNextAchToast();
+    }, 500);
   }, 2500);
 }
 
+// ===== Rewards =====
 function redeemReward(id) {
   const reward = data.rewards.find(r => r.id === id);
   if (!reward || data.stars < reward.cost) return;
@@ -1094,6 +1874,7 @@ function redeemReward(id) {
   if (!confirm(`确定要用 ${reward.cost} 颗星星兑换「${reward.name}」吗？`)) return;
 
   data.stars -= reward.cost;
+  data.redeemCount = (data.redeemCount || 0) + 1;
   data.history.push({
     date: getToday(),
     text: '兑换: ' + reward.name,
@@ -1104,11 +1885,13 @@ function redeemReward(id) {
   showCelebration(
     '&#127873;',
     '奖励已兑换！',
-    reward.name
+    reward.name,
+    ''
   );
 
   saveData();
   render();
+  checkAchievements();
 }
 
 function addQuest() {
@@ -1179,12 +1962,13 @@ function resetAll() {
   render();
 }
 
-// Celebration
-function showCelebration(emoji, text, sub) {
+// ===== Celebration =====
+function showCelebration(emoji, text, sub, drop) {
   const el = document.getElementById('celebration');
   document.getElementById('celebEmoji').innerHTML = emoji;
   document.getElementById('celebText').innerHTML = text;
   document.getElementById('celebSub').innerHTML = sub;
+  document.getElementById('celebDrop').innerHTML = drop || '';
   el.classList.add('show');
 }
 
@@ -1192,7 +1976,7 @@ function closeCelebration() {
   document.getElementById('celebration').classList.remove('show');
 }
 
-// Particles
+// ===== Particles =====
 function spawnParticles(count = 15) {
   const emojis = ['&#11088;', '&#10024;', '&#127775;', '&#128171;', '&#9889;'];
   for (let i = 0; i < count; i++) {
@@ -1224,6 +2008,7 @@ document.getElementById('newRewardName').addEventListener('keydown', e => {
 
 // Init
 render();
+checkAchievements();
 </script>
 </body>
 </html>
