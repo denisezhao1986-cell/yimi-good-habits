@@ -861,7 +861,7 @@ body {
   position: fixed;
   bottom: 80px;
   left: 50%;
-  transform: translateX(-50%) translateY(120px);
+  transform: translateX(-50%) translateY(200px);
   background: var(--mc-dark-brown);
   border: 3px solid var(--mc-gold);
   padding: 12px 16px;
@@ -869,11 +869,15 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: transform 0.4s ease;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s ease, opacity 0.3s ease, visibility 0.4s;
   max-width: 90vw;
 }
 .ach-toast.show {
   transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 .ach-toast-icon { font-size: 24px; }
 .ach-toast-text {
