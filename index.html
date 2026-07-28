@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>薏米的好习惯养成游戏</title>
+<title>薏米的冒险工作台</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -973,11 +973,365 @@ body {
   font-family: 'Microsoft YaHei', sans-serif;
 }
 
+/* ===== 3.0 每日工作台 ===== */
+
+/* 日期栏 */
+.today-bar {
+  background: var(--mc-dark-brown);
+  border: var(--pixel-border);
+  padding: 10px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.today-date {
+  color: var(--mc-gold);
+  font-size: 9px;
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.today-progress {
+  color: var(--mc-white);
+  font-size: 7px;
+  margin-top: 6px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  line-height: 1.8;
+}
+.today-progress-bar {
+  height: 10px;
+  background: var(--mc-black);
+  border: 2px solid var(--mc-black);
+  margin-top: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.today-progress-fill {
+  height: 100%;
+  background: var(--mc-grass-top);
+  transition: width 0.4s steps(10);
+}
+
+/* 学科板块 */
+.subject-block {
+  border: var(--pixel-border);
+  margin-bottom: 12px;
+  background: rgba(0,0,0,0.15);
+}
+.subject-header {
+  padding: 9px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 2px solid var(--mc-black);
+}
+.subject-header:active { filter: brightness(1.2); }
+.subject-icon { font-size: 14px; }
+.subject-name {
+  flex: 1;
+  font-size: 9px;
+  color: var(--mc-white);
+  text-shadow: 1px 1px 0 var(--mc-black);
+}
+.subject-count {
+  font-size: 7px;
+  color: var(--mc-white);
+  background: rgba(0,0,0,0.35);
+  padding: 3px 6px;
+  border: 2px solid var(--mc-black);
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.subject-toggle {
+  font-size: 9px;
+  color: var(--mc-white);
+  transition: transform 0.2s;
+}
+.subject-block.collapsed .subject-toggle { transform: rotate(-90deg); }
+.subject-body { padding: 8px; }
+.subject-block.collapsed .subject-body { display: none; }
+
+/* 任务项 */
+.task-item {
+  background: var(--mc-dark-stone);
+  border: 2px solid var(--mc-black);
+  margin-bottom: 7px;
+}
+.task-item:last-child { margin-bottom: 0; }
+.task-item.done { background: var(--mc-dark-green); opacity: 0.75; }
+.task-main {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px;
+}
+.task-check {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 2px solid var(--mc-black);
+  background: var(--mc-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--mc-dark-green);
+  cursor: pointer;
+}
+.task-item.done .task-check { background: var(--mc-grass-top); }
+.task-body { flex: 1; min-width: 0; cursor: pointer; }
+.task-title {
+  font-size: 8px;
+  color: var(--mc-white);
+  text-shadow: 1px 1px 0 var(--mc-black);
+  line-height: 1.6;
+  font-family: 'Microsoft YaHei', sans-serif;
+  font-weight: bold;
+}
+.task-item.done .task-title { text-decoration: line-through; }
+.task-peek {
+  font-size: 7px;
+  color: #E8E8E8;
+  margin-top: 4px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  line-height: 1.6;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-points {
+  font-size: 8px;
+  color: var(--mc-gold);
+  text-shadow: 1px 1px 0 var(--mc-black);
+  white-space: nowrap;
+}
+
+/* 展开的内容区 */
+.task-detail {
+  display: none;
+  padding: 10px;
+  background: rgba(0,0,0,0.3);
+  border-top: 2px solid var(--mc-black);
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.task-item.expanded .task-detail { display: block; }
+.task-detail-label {
+  font-size: 7px;
+  color: var(--mc-gold);
+  margin-bottom: 6px;
+}
+.task-content-text {
+  font-size: 11px;
+  color: var(--mc-white);
+  line-height: 2;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.task-note {
+  font-size: 8px;
+  color: var(--mc-diamond);
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255,255,255,0.25);
+  line-height: 1.8;
+}
+.task-hard-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  background: var(--mc-brown);
+  border: 2px solid var(--mc-black);
+  color: var(--mc-white);
+  font-size: 8px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  cursor: pointer;
+}
+.task-hard-btn:active { transform: translateY(2px); }
+.task-hard-btn.marked { background: var(--mc-red); }
+
+/* 复习板块 */
+.review-block { border-color: var(--mc-purple); }
+.review-note {
+  font-size: 7px;
+  color: var(--mc-diamond);
+  font-family: 'Microsoft YaHei', sans-serif;
+  padding: 6px 8px;
+  line-height: 1.8;
+}
+.review-age {
+  font-size: 7px;
+  color: var(--mc-gold);
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+
+/* 空工作台 */
+.workbench-empty {
+  text-align: center;
+  padding: 28px 12px;
+  color: var(--mc-white);
+  font-size: 8px;
+  line-height: 2.2;
+  font-family: 'Microsoft YaHei', sans-serif;
+  background: rgba(0,0,0,0.2);
+  border: 2px dashed var(--mc-stone);
+}
+
+/* 家长后台 */
+.parent-hint {
+  background: rgba(255, 215, 0, 0.12);
+  border: 2px solid var(--mc-gold);
+  padding: 8px;
+  margin-bottom: 12px;
+  font-size: 7px;
+  color: var(--mc-white);
+  line-height: 1.9;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.date-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.date-tab {
+  flex: 1;
+  min-width: 62px;
+  padding: 7px 3px;
+  background: var(--mc-dark-stone);
+  border: 2px solid var(--mc-black);
+  color: var(--mc-white);
+  font-size: 7px;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Microsoft YaHei', sans-serif;
+  line-height: 1.5;
+}
+.date-tab.active { background: var(--mc-green); }
+.date-tab-day { font-size: 6px; opacity: 0.85; display: block; margin-top: 2px; }
+
+.editor-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.editor-select {
+  padding: 7px 4px;
+  background: var(--mc-white);
+  border: 2px solid var(--mc-black);
+  font-size: 8px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: var(--mc-black);
+  cursor: pointer;
+}
+.editor-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px;
+  background: var(--mc-white);
+  border: 2px solid var(--mc-black);
+  font-size: 8px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: var(--mc-black);
+}
+.editor-textarea {
+  width: 100%;
+  padding: 7px;
+  background: var(--mc-white);
+  border: 2px solid var(--mc-black);
+  font-size: 9px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  color: var(--mc-black);
+  line-height: 1.8;
+  resize: vertical;
+  margin-bottom: 6px;
+}
+.editor-num {
+  width: 48px;
+  min-width: 48px;
+  padding: 7px 3px;
+  background: var(--mc-white);
+  border: 2px solid var(--mc-black);
+  font-size: 8px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  text-align: center;
+  color: var(--mc-black);
+}
+.editor-btn {
+  padding: 8px 12px;
+  background: var(--mc-green);
+  border: 2px solid var(--mc-black);
+  color: var(--mc-white);
+  font-size: 8px;
+  font-family: 'Microsoft YaHei', sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.editor-btn:active { transform: translateY(2px); }
+.editor-btn.wide { width: 100%; margin-top: 4px; }
+.editor-btn.ghost { background: var(--mc-dark-stone); }
+.editor-btn.gold { background: var(--mc-brown); }
+
+/* 已排任务预览 */
+.plan-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px;
+  background: rgba(0,0,0,0.25);
+  border: 2px solid var(--mc-black);
+  margin-bottom: 5px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.plan-subject {
+  font-size: 7px;
+  padding: 3px 5px;
+  border: 2px solid var(--mc-black);
+  color: var(--mc-white);
+  white-space: nowrap;
+}
+.plan-text { flex: 1; min-width: 0; }
+.plan-title { font-size: 8px; color: var(--mc-white); line-height: 1.5; }
+.plan-content {
+  font-size: 7px;
+  color: #C8C8C8;
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+.plan-del {
+  background: var(--mc-red);
+  border: 2px solid var(--mc-black);
+  color: white;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  font-size: 10px;
+  cursor: pointer;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+
+/* 复习池管理 */
+.pool-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 7px;
+  background: rgba(181, 126, 220, 0.15);
+  border: 2px solid var(--mc-purple);
+  margin-bottom: 5px;
+  font-family: 'Microsoft YaHei', sans-serif;
+}
+.pool-text { flex: 1; min-width: 0; font-size: 8px; color: var(--mc-white); line-height: 1.6; }
+.pool-meta { font-size: 7px; color: var(--mc-diamond); margin-top: 3px; }
+
 @media (max-width: 360px) {
   .header h1 { font-size: 12px; }
   .stat-value { font-size: 12px; }
   .quest-name { font-size: 8px; }
   .hero-avatar { width: 72px; height: 96px; }
+  .task-title { font-size: 7px; }
+  .subject-name { font-size: 8px; }
 }
 </style>
 </head>
@@ -990,8 +1344,8 @@ body {
 
 <div class="container">
   <div class="header">
-    <h1>薏米的好习惯养成游戏</h1>
-    <div class="subtitle">YIMI GOOD HABITS</div>
+    <h1>薏米的冒险工作台</h1>
+    <div class="subtitle">YIMI DAILY QUEST BOARD</div>
   </div>
 
   <!-- Hero character card -->
@@ -1030,22 +1384,23 @@ body {
   </div>
 
   <div class="tabs">
-    <div class="tab active" data-tab="quests">&#9876;任务</div>
+    <div class="tab active" data-tab="quests">&#128203;今日</div>
     <div class="tab" data-tab="rewards">&#127873;奖励</div>
     <div class="tab" data-tab="collection">&#128214;图鉴</div>
-    <div class="tab" data-tab="settings">&#9881;设置</div>
+    <div class="tab" data-tab="settings">&#128295;家长</div>
   </div>
 
   <div class="panel">
     <div class="panel-content">
-      <!-- Quests Tab -->
+      <!-- 今日工作台 -->
       <div class="tab-panel active" id="tab-quests">
-        <div id="chestBanner"></div>
-        <div id="dailyNotice"></div>
-        <div id="questList"></div>
-        <div id="questEmpty" class="empty-state" style="display:none;">
-          还没有任务哦！<br>去「设置」里添加吧 &#128072;
+        <div class="today-bar">
+          <div class="today-date" id="todayDate"></div>
+          <div class="today-progress" id="todayProgress"></div>
+          <div class="today-progress-bar"><div class="today-progress-fill" id="todayProgressFill" style="width:0%"></div></div>
         </div>
+        <div id="chestBanner"></div>
+        <div id="workbench"></div>
       </div>
 
       <!-- Rewards Tab -->
@@ -1064,24 +1419,74 @@ body {
         <div id="achList"></div>
       </div>
 
-      <!-- Settings Tab -->
+      <!-- 家长后台 -->
       <div class="tab-panel" id="tab-settings">
+
+        <!-- 排课表 -->
         <div class="settings-section">
-          <div class="settings-title">&#9876; 管理任务</div>
-          <div class="settings-input-row">
-            <input class="pixel-input" id="newQuestName" placeholder="任务名称" maxlength="20">
-            <input class="pixel-input-small" id="newQuestPoints" placeholder="&#9733;" type="number" min="1" max="99" value="5">
-            <button class="pixel-btn" onclick="addQuest()">+</button>
+          <div class="settings-title">&#128197; 排今天/明天的任务</div>
+          <div class="date-tabs" id="dateTabs"></div>
+
+          <div class="editor-row">
+            <select class="editor-select" id="edSubject"></select>
+            <input class="editor-input" id="edTitle" placeholder="要做什么？如：写生字词" maxlength="24">
+            <input class="editor-num" id="edPoints" type="number" min="1" max="99" value="3">
+          </div>
+          <textarea class="editor-textarea" id="edContent" rows="3" placeholder="具体内容（孩子点开就能看到）&#10;如：蜻蜓 蝴蝶 蚂蚁 蜘蛛"></textarea>
+          <input class="editor-input" id="edNote" placeholder="小提示（可不填）如：每个写3遍" maxlength="40" style="width:100%;margin-bottom:6px;">
+          <button class="editor-btn wide" onclick="addPlanItem()">&#10133; 加到这天</button>
+
+          <div style="margin-top:12px;">
+            <div class="settings-title" style="font-size:8px;">这天的安排 <span id="planCount" style="color:var(--mc-stone);"></span></div>
+            <div id="planList"></div>
+            <div id="planEmpty" class="empty-state" style="font-size:7px;padding:14px 0;">这天还没排任务</div>
+          </div>
+
+          <button class="editor-btn ghost wide" onclick="copyFromYesterday()">&#128203; 复制前一天的安排</button>
+          <button class="editor-btn gold wide" onclick="shareToChild()">&#128228; 生成链接发给孩子</button>
+          <div class="parent-hint" style="margin-top:8px;margin-bottom:0;">
+            孩子如果用自己的手机/平板，排完任务要点上面的按钮，把链接发给他，他点开就能收到。同一台设备上用就不用发。
+          </div>
+        </div>
+
+        <!-- 每天都要做的 -->
+        <div class="settings-section">
+          <div class="settings-title">&#11088; 每天都要做的（自动出现）</div>
+          <div class="editor-row">
+            <input class="editor-input" id="newQuestName" placeholder="如：整理书包、阅读20分钟" maxlength="20">
+            <input class="editor-num" id="newQuestPoints" type="number" min="1" max="99" value="3">
+            <button class="editor-btn" onclick="addQuest()">+</button>
           </div>
           <div id="questSettingsList"></div>
         </div>
 
+        <!-- 复习池 -->
+        <div class="settings-section">
+          <div class="settings-title">&#128260; 复习池 <span id="poolCount" style="color:var(--mc-stone);font-size:7px;"></span></div>
+          <div class="parent-hint">
+            孩子点「这个还不熟」的内容会进这里，之后按 1天 → 3天 → 7天 → 15天 自动出现在工作台，四轮都过了就毕业。不用手动管。
+          </div>
+          <div id="poolList"></div>
+          <div id="poolEmpty" class="empty-state" style="font-size:7px;padding:14px 0;">复习池是空的</div>
+        </div>
+
+        <!-- 批量导入 -->
+        <div class="settings-section">
+          <div class="settings-title">&#128228; 批量导入一周</div>
+          <div class="parent-hint">
+            让 Claude Code 按格式生成一周内容，粘进来一键导入。点下面按钮复制格式说明。
+          </div>
+          <button class="editor-btn gold wide" onclick="copyImportSpec()">&#128203; 复制格式说明给 AI</button>
+          <textarea class="editor-textarea" id="importBox" rows="4" placeholder="把 AI 生成的内容粘贴到这里" style="margin-top:8px;"></textarea>
+          <button class="editor-btn wide" onclick="doImport()">&#11015; 导入</button>
+        </div>
+
         <div class="settings-section">
           <div class="settings-title">&#127873; 管理奖励</div>
-          <div class="settings-input-row">
-            <input class="pixel-input" id="newRewardName" placeholder="奖励名称" maxlength="20">
-            <input class="pixel-input-small" id="newRewardCost" placeholder="&#9733;" type="number" min="1" max="999" value="30">
-            <button class="pixel-btn" onclick="addReward()">+</button>
+          <div class="editor-row">
+            <input class="editor-input" id="newRewardName" placeholder="奖励名称" maxlength="20">
+            <input class="editor-num" id="newRewardCost" type="number" min="1" max="999" value="30">
+            <button class="editor-btn" onclick="addReward()">+</button>
           </div>
           <div id="rewardSettingsList"></div>
         </div>
@@ -1171,6 +1576,23 @@ const ORES = [
   { id: 'emerald',  name: '绿宝石', emoji: '\u{1F7E2}', rate: 0.02, rarity: '传说',   color: '#50C878' }
 ];
 
+// 学科板块
+const SUBJECTS = [
+  { id: 'chinese', name: '语文',   icon: '\u{1F4D6}', color: '#C0392B' },
+  { id: 'math',    name: '数学',   icon: '\u{1F522}', color: '#2471A3' },
+  { id: 'english', name: '英语',   icon: '\u{1F524}', color: '#7D3C98' },
+  { id: 'habit',   name: '好习惯', icon: '⭐',    color: '#B7950B' },
+  { id: 'sport',   name: '运动',   icon: '⚽',    color: '#1E8449' },
+  { id: 'other',   name: '其他',   icon: '\u{1F4CC}', color: '#5D6D7E' }
+];
+
+// 复习间隔（天）：1 → 3 → 7 → 15，四轮后毕业
+const REVIEW_STEPS = [1, 3, 7, 15];
+
+function getSubject(id) {
+  return SUBJECTS.find(s => s.id === id) || SUBJECTS[SUBJECTS.length - 1];
+}
+
 const ACHIEVEMENTS = [
   { id: 'first_quest',   name: '第一步',     desc: '完成第一个任务',      icon: '\u{1F463}', check: d => d.totalStarsEarned > 0 },
   { id: 'streak3',       name: '三日坚持',   desc: '连续完成3天',         icon: '\u{1F525}', check: d => d.streak >= 3 },
@@ -1185,7 +1607,9 @@ const ACHIEVEMENTS = [
   { id: 'ore50',         name: '矿业大王',   desc: '收集50个矿物',        icon: '\u{1F3D7}️', check: d => totalOres(d) >= 50 },
   { id: 'first_diamond', name: '钻石猎人',   desc: '挖到第一颗钻石',      icon: '\u{1F4A0}', check: d => (d.ores.diamond || 0) >= 1 },
   { id: 'first_chest',   name: '开箱达人',   desc: '打开第一个宝箱',      icon: '\u{1F4E6}', check: d => (d.chestsOpened || 0) >= 1 },
-  { id: 'first_redeem',  name: '愿望成真',   desc: '兑换第一个奖励',      icon: '\u{1F381}', check: d => (d.redeemCount || 0) >= 1 }
+  { id: 'first_redeem',  name: '愿望成真',   desc: '兑换第一个奖励',      icon: '\u{1F381}', check: d => (d.redeemCount || 0) >= 1 },
+  { id: 'review10',      name: '温故知新',   desc: '完成10次复习',        icon: '\u{1F504}', check: d => (d.reviewDone || 0) >= 10 },
+  { id: 'graduate5',     name: '牢牢记住',   desc: '5个知识点复习毕业',   icon: '\u{1F393}', check: d => (d.graduated || 0) >= 5 }
 ];
 
 let data = loadData();
@@ -1276,14 +1700,16 @@ function soundAchievement() {
 // ===== Data =====
 function defaultData() {
   return {
-    version: 2,
+    version: 3,
     stars: 0,
     xp: 0,
     level: 1,
     streak: 0,
     lastCompleteDate: null,
     lastActiveDate: null,
-    quests: [],
+    quests: [],          // 每天都有的常规任务
+    schedule: {},        // 按日期排的学科任务 { "2026-07-29": [ {id, subject, title, content, note, points} ] }
+    reviewPool: [],      // 复习池 { id, title, content, subject, fromDate, step, nextDate }
     rewards: [],
     todayCompleted: {},
     todayDate: getToday(),
@@ -1294,29 +1720,139 @@ function defaultData() {
     dailyRecord: {},
     chestOpenedDate: null,
     chestsOpened: 0,
-    redeemCount: 0
+    redeemCount: 0,
+    reviewDone: 0,
+    graduated: 0
   };
 }
 
 function migrate(d) {
-  if (d.version >= 2) return d;
-  d.version = 2;
-  // 从历史记录推算累计星星
-  d.totalStarsEarned = (d.history || [])
-    .filter(h => h.points > 0)
-    .reduce((sum, h) => sum + h.points, 0);
-  d.ores = d.ores || {};
-  d.achievements = d.achievements || [];
-  d.dailyRecord = d.dailyRecord || {};
-  d.chestOpenedDate = d.chestOpenedDate || null;
-  d.chestsOpened = d.chestsOpened || 0;
-  d.redeemCount = d.redeemCount || 0;
+  // v1 → v2
+  if (!d.version || d.version < 2) {
+    d.version = 2;
+    d.totalStarsEarned = (d.history || [])
+      .filter(h => h.points > 0)
+      .reduce((sum, h) => sum + h.points, 0);
+    d.ores = d.ores || {};
+    d.achievements = d.achievements || [];
+    d.dailyRecord = d.dailyRecord || {};
+    d.chestOpenedDate = d.chestOpenedDate || null;
+    d.chestsOpened = d.chestsOpened || 0;
+    d.redeemCount = d.redeemCount || 0;
+  }
+  // v2 → v3：原来的 quests 变成"每天都有的常规任务"，新增课表和复习池
+  if (d.version < 3) {
+    d.version = 3;
+    d.quests = d.quests || [];
+    d.schedule = d.schedule || {};
+    d.reviewPool = d.reviewPool || [];
+    d.reviewDone = d.reviewDone || 0;
+    d.graduated = d.graduated || 0;
+  }
   return d;
 }
 
 function getToday() {
-  const d = new Date();
+  return dateStr(new Date());
+}
+
+function dateStr(d) {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function addDays(dateString, n) {
+  const d = new Date(dateString + 'T00:00:00');
+  d.setDate(d.getDate() + n);
+  return dateStr(d);
+}
+
+function daysBetween(a, b) {
+  return Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
+}
+
+const WEEKDAY_CN = ['周日','周一','周二','周三','周四','周五','周六'];
+function weekdayOf(dateString) {
+  return WEEKDAY_CN[new Date(dateString + 'T00:00:00').getDay()];
+}
+
+function friendlyDate(dateString) {
+  const diff = daysBetween(getToday(), dateString);
+  if (diff === 0) return '今天';
+  if (diff === 1) return '明天';
+  if (diff === 2) return '后天';
+  if (diff === -1) return '昨天';
+  return dateString.slice(5).replace('-', '月') + '日';
+}
+
+// ===== 今日任务聚合：常规 + 课表 + 复习 =====
+function getTodayTasks() {
+  const today = getToday();
+  const groups = [];
+
+  // 1. 学科任务（当天排的）
+  const planned = data.schedule[today] || [];
+  SUBJECTS.forEach(sub => {
+    const items = planned.filter(it => it.subject === sub.id);
+    if (items.length === 0) return;
+    groups.push({
+      key: 'sub_' + sub.id,
+      subject: sub,
+      tasks: items.map(it => ({
+        key: 'p_' + it.id,
+        title: it.title,
+        content: it.content || '',
+        note: it.note || '',
+        points: it.points,
+        canReview: true,
+        raw: it
+      }))
+    });
+  });
+
+  // 2. 每天都有的常规任务
+  if (data.quests.length > 0) {
+    const habit = getSubject('habit');
+    groups.push({
+      key: 'sub_routine',
+      subject: { ...habit, name: '每天都要做' },
+      tasks: data.quests.map(q => ({
+        key: 'q_' + q.id,
+        title: q.name,
+        content: '',
+        note: '',
+        points: q.points,
+        canReview: false,
+        raw: q
+      }))
+    });
+  }
+
+  // 3. 到期的复习
+  const due = data.reviewPool.filter(r => r.nextDate <= today);
+  if (due.length > 0) {
+    groups.push({
+      key: 'sub_review',
+      subject: { id: 'review', name: '今日复习', icon: '\u{1F504}', color: '#7D3C98' },
+      isReview: true,
+      tasks: due.map(r => ({
+        key: 'v_' + r.id,
+        title: r.title,
+        content: r.content || '',
+        note: '',
+        points: 2,
+        isReview: true,
+        age: daysBetween(r.fromDate, today),
+        step: r.step,
+        raw: r
+      }))
+    });
+  }
+
+  return groups;
+}
+
+function allTodayTasks() {
+  return getTodayTasks().flatMap(g => g.tasks);
 }
 
 function loadData() {
@@ -1329,9 +1865,22 @@ function loadData() {
       d.todayCompleted = {};
       d.todayDate = getToday();
     }
+    pruneSchedule(d);
     return d;
   } catch(e) {
     return defaultData();
+  }
+}
+
+// 清掉30天前的旧课表，避免存储无限增长
+function pruneSchedule(d) {
+  const cutoff = addDays(getToday(), -30);
+  Object.keys(d.schedule || {}).forEach(date => {
+    if (date < cutoff) delete d.schedule[date];
+  });
+  // 历史记录也控制一下
+  if (d.history && d.history.length > 400) {
+    d.history = d.history.slice(-400);
   }
 }
 
@@ -1350,8 +1899,9 @@ function checkStreak(d) {
 }
 
 function isTodayAllDone() {
-  if (data.quests.length === 0) return false;
-  return data.quests.every(q => data.todayCompleted[q.id]);
+  const tasks = allTodayTasks();
+  if (tasks.length === 0) return false;
+  return tasks.every(t => data.todayCompleted[t.key]);
 }
 
 function totalOres(d) {
@@ -1359,11 +1909,12 @@ function totalOres(d) {
 }
 
 function updateDailyRecord() {
-  const done = data.quests.filter(q => data.todayCompleted[q.id]).length;
+  const tasks = allTodayTasks();
+  const done = tasks.filter(t => data.todayCompleted[t.key]).length;
   data.dailyRecord[getToday()] = {
     done: done,
-    total: data.quests.length,
-    allDone: data.quests.length > 0 && done === data.quests.length
+    total: tasks.length,
+    allDone: tasks.length > 0 && done === tasks.length
   };
   // 只保留最近60天
   const keys = Object.keys(data.dailyRecord).sort();
@@ -1516,40 +2067,147 @@ function renderChestBanner() {
   }
 }
 
-function renderQuests() {
-  const list = document.getElementById('questList');
-  const empty = document.getElementById('questEmpty');
-  const notice = document.getElementById('dailyNotice');
+// 记住哪些学科板块被折叠了（只在本次会话有效）
+const collapsedGroups = new Set();
+const expandedTasks = new Set();
 
-  if (data.quests.length === 0) {
-    list.innerHTML = '';
-    empty.style.display = 'block';
-    notice.innerHTML = '';
+function renderQuests() {
+  const wb = document.getElementById('workbench');
+  const groups = getTodayTasks();
+  const tasks = allTodayTasks();
+  const done = tasks.filter(t => data.todayCompleted[t.key]).length;
+  const total = tasks.length;
+
+  // 日期栏
+  const today = getToday();
+  document.getElementById('todayDate').textContent =
+    `${today.slice(5).replace('-','月')}日 ${weekdayOf(today)}`;
+
+  const progEl = document.getElementById('todayProgress');
+  const fillEl = document.getElementById('todayProgressFill');
+
+  if (total === 0) {
+    progEl.textContent = '今天还没有安排任务';
+    fillEl.style.width = '0%';
+    wb.innerHTML = `
+      <div class="workbench-empty">
+        &#128075; 今天还没有任务哦<br>
+        让妈妈去「家长」里排一下吧
+      </div>`;
     return;
   }
 
-  empty.style.display = 'none';
-  const done = data.quests.filter(q => data.todayCompleted[q.id]).length;
-  const total = data.quests.length;
-
-  if (isTodayAllDone()) {
-    notice.innerHTML = '<div class="daily-notice">&#127942; 今天的任务全部完成啦！太棒了！</div>';
+  if (done === total) {
+    progEl.innerHTML = '&#127942; 今天的任务全部完成啦！太棒了！';
   } else {
-    notice.innerHTML = `<div class="daily-notice">&#9876; 今日进度: ${done} / ${total}　还差 ${total - done} 个就能开宝箱！</div>`;
+    progEl.innerHTML = `已完成 ${done} / ${total}　还差 ${total - done} 个就能开宝箱`;
+  }
+  fillEl.style.width = Math.round(done / total * 100) + '%';
+
+  wb.innerHTML = groups.map(g => {
+    const gDone = g.tasks.filter(t => data.todayCompleted[t.key]).length;
+    const collapsed = collapsedGroups.has(g.key);
+    return `
+      <div class="subject-block ${collapsed ? 'collapsed' : ''} ${g.isReview ? 'review-block' : ''}">
+        <div class="subject-header" style="background:${g.subject.color}" onclick="toggleGroup('${g.key}')">
+          <span class="subject-icon">${g.subject.icon}</span>
+          <span class="subject-name">${escHtml(g.subject.name)}</span>
+          <span class="subject-count">${gDone}/${g.tasks.length}</span>
+          <span class="subject-toggle">&#9660;</span>
+        </div>
+        <div class="subject-body">
+          ${g.isReview ? '<div class="review-note">&#128161; 这些是之前标记「还不熟」的，再见一次面就更记得住啦</div>' : ''}
+          ${g.tasks.map(t => renderTaskItem(t)).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderTaskItem(t) {
+  const isDone = !!data.todayCompleted[t.key];
+  const isExpanded = expandedTasks.has(t.key);
+  const hasDetail = t.content || t.note || t.canReview;
+
+  // 内容预览（一行，换行压成空格）
+  let peek = '';
+  if (t.content) {
+    peek = `<div class="task-peek">${escHtml(t.content.replace(/\s*\n\s*/g, '　'))}</div>`;
+  } else if (t.isReview) {
+    peek = `<div class="task-peek">${t.age} 天前学的　第 ${t.step + 1} 次复习</div>`;
   }
 
-  list.innerHTML = data.quests.map(q => {
-    const done = data.todayCompleted[q.id];
-    return `
-      <div class="quest-item ${done ? 'completed' : ''}" onclick="toggleQuest('${q.id}')">
-        <div class="quest-checkbox">${done ? '&#10003;' : ''}</div>
-        <div class="quest-info">
-          <div class="quest-name">${escHtml(q.name)}</div>
+  let detail = '';
+  if (hasDetail) {
+    detail = `
+      <div class="task-detail">
+        ${t.content ? `
+          <div class="task-detail-label">&#128221; 具体内容</div>
+          <div class="task-content-text">${escHtml(t.content)}</div>` : ''}
+        ${t.note ? `<div class="task-note">&#128161; ${escHtml(t.note)}</div>` : ''}
+        ${t.canReview ? `
+          <button class="task-hard-btn" onclick="event.stopPropagation();markHard('${t.key}')">
+            &#129300; 这个我还不熟，过几天再练一次
+          </button>` : ''}
+      </div>`;
+  }
+
+  return `
+    <div class="task-item ${isDone ? 'done' : ''} ${isExpanded ? 'expanded' : ''}">
+      <div class="task-main">
+        <div class="task-check" onclick="event.stopPropagation();toggleQuest('${t.key}')">${isDone ? '&#10003;' : ''}</div>
+        <div class="task-body" onclick="${hasDetail ? `toggleTaskDetail('${t.key}')` : `toggleQuest('${t.key}')`}">
+          <div class="task-title">${escHtml(t.title)}</div>
+          ${peek}
         </div>
-        <div class="quest-points">&#11088;${q.points}</div>
+        <div class="task-points">&#11088;${t.points}</div>
       </div>
-    `;
-  }).join('');
+      ${detail}
+    </div>`;
+}
+
+function toggleGroup(key) {
+  if (collapsedGroups.has(key)) collapsedGroups.delete(key);
+  else collapsedGroups.add(key);
+  renderQuests();
+}
+
+function toggleTaskDetail(key) {
+  if (expandedTasks.has(key)) expandedTasks.delete(key);
+  else expandedTasks.add(key);
+  renderQuests();
+}
+
+// 标记"还不熟" → 进复习池
+function markHard(key) {
+  const t = allTodayTasks().find(x => x.key === key);
+  if (!t) return;
+
+  const exists = data.reviewPool.find(r => r.title === t.title && r.content === t.content);
+  if (exists) {
+    alert('这个已经在复习池里啦！');
+    return;
+  }
+
+  const today = getToday();
+  data.reviewPool.push({
+    id: 'rv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    title: t.title,
+    content: t.content,
+    subject: t.raw.subject || 'other',
+    fromDate: today,
+    step: 0,
+    nextDate: addDays(today, REVIEW_STEPS[0])
+  });
+
+  saveData();
+  soundOre();
+  showCelebration(
+    '&#128260;',
+    '记下啦！',
+    `「${t.title}」放进复习池了`,
+    `&#128197; ${REVIEW_STEPS[0]} 天后会再出现一次`
+  );
+  render();
 }
 
 function renderRewards() {
@@ -1613,7 +2271,20 @@ function renderCollection() {
   }).join('');
 }
 
+// 家长后台当前正在编辑哪一天
+let editingDate = getToday();
+
 function renderSettings() {
+  renderDateTabs();
+  renderPlanList();
+  renderPool();
+
+  // 学科下拉
+  const sel = document.getElementById('edSubject');
+  if (sel.options.length === 0) {
+    sel.innerHTML = SUBJECTS.map(s => `<option value="${s.id}">${s.icon}${s.name}</option>`).join('');
+  }
+
   const qList = document.getElementById('questSettingsList');
   qList.innerHTML = data.quests.map(q => `
     <div class="editable-item">
@@ -1631,6 +2302,382 @@ function renderSettings() {
       <button class="pixel-btn danger small" onclick="removeReward('${r.id}')">&#10005;</button>
     </div>
   `).join('');
+}
+
+function renderDateTabs() {
+  const today = getToday();
+  const tabs = [0, 1, 2, 3, 4].map(offset => {
+    const d = addDays(today, offset);
+    const count = (data.schedule[d] || []).length;
+    return `
+      <div class="date-tab ${d === editingDate ? 'active' : ''}" onclick="selectDate('${d}')">
+        ${friendlyDate(d)}${count > 0 ? `<span style="color:var(--mc-gold)">·${count}</span>` : ''}
+        <span class="date-tab-day">${weekdayOf(d)}</span>
+      </div>`;
+  }).join('');
+  document.getElementById('dateTabs').innerHTML = tabs;
+}
+
+function selectDate(d) {
+  editingDate = d;
+  renderSettings();
+}
+
+function renderPlanList() {
+  const list = document.getElementById('planList');
+  const empty = document.getElementById('planEmpty');
+  const items = data.schedule[editingDate] || [];
+
+  document.getElementById('planCount').textContent =
+    items.length > 0 ? `(${items.length}项 · 共${items.reduce((s,i)=>s+i.points,0)}⭐)` : '';
+
+  if (items.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  list.innerHTML = items.map(it => {
+    const sub = getSubject(it.subject);
+    return `
+      <div class="plan-item">
+        <span class="plan-subject" style="background:${sub.color}">${sub.icon}${sub.name}</span>
+        <div class="plan-text">
+          <div class="plan-title">${escHtml(it.title)} <span style="color:var(--mc-gold)">⭐${it.points}</span></div>
+          ${it.content ? `<div class="plan-content">${escHtml(it.content.replace(/\s*\n\s*/g, '　'))}</div>` : ''}
+        </div>
+        <button class="plan-del" onclick="removePlanItem('${it.id}')">&#10005;</button>
+      </div>`;
+  }).join('');
+}
+
+function renderPool() {
+  const list = document.getElementById('poolList');
+  const empty = document.getElementById('poolEmpty');
+  const pool = [...data.reviewPool].sort((a, b) => a.nextDate.localeCompare(b.nextDate));
+
+  document.getElementById('poolCount').textContent =
+    pool.length > 0 ? `(${pool.length}个)` : '';
+
+  if (pool.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const today = getToday();
+  list.innerHTML = pool.map(r => {
+    const dueIn = daysBetween(today, r.nextDate);
+    const dueText = dueIn <= 0 ? '今天要复习' : `${dueIn}天后复习`;
+    return `
+      <div class="pool-item">
+        <div class="pool-text">
+          ${escHtml(r.title)}
+          <div class="pool-meta">第${r.step + 1}/4轮 · ${dueText}</div>
+        </div>
+        <button class="plan-del" onclick="removeFromPool('${r.id}')">&#10005;</button>
+      </div>`;
+  }).join('');
+}
+
+// ===== 家长后台操作 =====
+function addPlanItem() {
+  const subject = document.getElementById('edSubject').value;
+  const titleEl = document.getElementById('edTitle');
+  const contentEl = document.getElementById('edContent');
+  const noteEl = document.getElementById('edNote');
+  const pointsEl = document.getElementById('edPoints');
+
+  const title = titleEl.value.trim();
+  if (!title) { alert('先填一下要做什么'); titleEl.focus(); return; }
+
+  if (!data.schedule[editingDate]) data.schedule[editingDate] = [];
+  data.schedule[editingDate].push({
+    id: 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+    subject: subject,
+    title: title,
+    content: contentEl.value.trim(),
+    note: noteEl.value.trim(),
+    points: Math.max(1, Math.min(99, parseInt(pointsEl.value) || 3))
+  });
+
+  titleEl.value = '';
+  contentEl.value = '';
+  noteEl.value = '';
+  saveData();
+  render();
+}
+
+function removePlanItem(id) {
+  const items = data.schedule[editingDate] || [];
+  data.schedule[editingDate] = items.filter(i => i.id !== id);
+  if (data.schedule[editingDate].length === 0) delete data.schedule[editingDate];
+  saveData();
+  render();
+}
+
+function removeFromPool(id) {
+  if (!confirm('从复习池里移除？')) return;
+  data.reviewPool = data.reviewPool.filter(r => r.id !== id);
+  saveData();
+  render();
+}
+
+function copyFromYesterday() {
+  const prev = addDays(editingDate, -1);
+  const items = data.schedule[prev] || [];
+  if (items.length === 0) {
+    alert(`${friendlyDate(prev)}没有安排，没什么可复制的`);
+    return;
+  }
+  if (!confirm(`把${friendlyDate(prev)}的 ${items.length} 项复制到${friendlyDate(editingDate)}？`)) return;
+
+  if (!data.schedule[editingDate]) data.schedule[editingDate] = [];
+  items.forEach(it => {
+    data.schedule[editingDate].push({
+      ...it,
+      id: 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6)
+    });
+  });
+  saveData();
+  render();
+}
+
+// ===== 跨设备：生成链接发给孩子 =====
+function encodePayload(obj) {
+  const bytes = new TextEncoder().encode(JSON.stringify(obj));
+  let bin = '';
+  bytes.forEach(b => { bin += String.fromCharCode(b); });
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function decodePayload(str) {
+  let b64 = str.replace(/-/g, '+').replace(/_/g, '/');
+  while (b64.length % 4) b64 += '=';
+  const bin = atob(b64);
+  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+// 同样的任务永远得到同样的 id，这样妈妈中途补发链接时，
+// 孩子已经勾掉的任务不会被重置成未完成
+function stableItemId(subject, title, content, idx) {
+  const str = subject + '|' + title + '|' + content + '|' + idx;
+  let h = 5381;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h * 33) ^ str.charCodeAt(i)) >>> 0;
+  }
+  return 'pl_' + h.toString(36);
+}
+
+function shareToChild() {
+  // 把今天起未来5天有安排的日子都打包
+  const today = getToday();
+  const payload = {};
+  for (let i = 0; i < 5; i++) {
+    const d = addDays(today, i);
+    const items = data.schedule[d] || [];
+    if (items.length > 0) {
+      payload[d] = items.map(it => ({
+        s: it.subject, t: it.title, c: it.content, n: it.note, p: it.points
+      }));
+    }
+  }
+
+  if (Object.keys(payload).length === 0) {
+    alert('还没排任何任务，先排一点再发给孩子吧');
+    return;
+  }
+
+  const code = encodePayload(payload);
+  const base = location.origin + location.pathname;
+  const url = base + '#task=' + code;
+
+  if (url.length > 6000) {
+    alert('任务内容太多了，链接放不下。\n建议一次只发一两天的。');
+    return;
+  }
+
+  const days = Object.keys(payload).map(friendlyDate).join('、');
+  const count = Object.values(payload).reduce((s, arr) => s + arr.length, 0);
+  copyText(url, `已复制链接（${days}，共${count}项）\n\n发微信给薏米，他点开就收到了`);
+}
+
+// 孩子打开带任务的链接
+function checkIncomingTasks() {
+  const m = location.hash.match(/[#&]task=([A-Za-z0-9\-_]+)/);
+  if (!m) return;
+
+  let payload;
+  try {
+    payload = decodePayload(m[1]);
+  } catch (e) {
+    history.replaceState(null, '', location.pathname);
+    return;
+  }
+
+  const validSubjects = SUBJECTS.map(s => s.id);
+  const dates = Object.keys(payload).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d));
+  if (dates.length === 0) {
+    history.replaceState(null, '', location.pathname);
+    return;
+  }
+
+  const total = dates.reduce((s, d) => s + (payload[d] || []).length, 0);
+  const dayText = dates.map(friendlyDate).join('、');
+
+  if (confirm(`\u{1F4EC} 妈妈给你发了新任务！\n\n${dayText}，一共 ${total} 个任务\n\n现在收下吗？`)) {
+    dates.forEach(d => {
+      data.schedule[d] = (payload[d] || []).map((it, idx) => {
+        const subject = validSubjects.includes(it.s) ? it.s : 'other';
+        const title = String(it.t || '任务').slice(0, 24);
+        const content = String(it.c || '');
+        return {
+          id: stableItemId(subject, title, content, idx),
+          subject, title, content,
+          note: String(it.n || ''),
+          points: Math.max(1, Math.min(99, parseInt(it.p) || 3))
+        };
+      });
+    });
+    saveData();
+    render();
+    soundChestOpen();
+    spawnParticles(20);
+    showCelebration('\u{1F4EC}', '收到啦！', `妈妈给你排了 ${total} 个任务`, '&#9876; 一个一个完成，攒星星开宝箱！');
+  }
+
+  history.replaceState(null, '', location.pathname);
+}
+
+// ===== 批量导入 =====
+function copyImportSpec() {
+  const today = getToday();
+  const spec = `请帮我按下面的格式生成薏米的每日任务安排（JSON），我会粘贴进他的工作台。
+
+格式说明：
+- 最外层是对象，key 是日期（YYYY-MM-DD），value 是当天的任务数组
+- 每个任务：subject（学科）、title（要做什么）、content（具体内容，孩子点开能看到）、note（小提示，可省略）、points（星星数 1-10）
+- subject 只能填这些：chinese(语文) math(数学) english(英语) habit(好习惯) sport(运动) other(其他)
+
+示例：
+{
+  "${today}": [
+    {"subject":"chinese","title":"写生字词","content":"蜻蜓 蝴蝶 蚂蚁 蜘蛛","note":"每个写3遍","points":3},
+    {"subject":"english","title":"背单词","content":"apple 苹果\\nbanana 香蕉\\norange 橙子","points":3},
+    {"subject":"math","title":"口算练习","content":"课本38页 1-10题","note":"限时5分钟","points":2}
+  ],
+  "${addDays(today, 1)}": [
+    {"subject":"chinese","title":"背古诗","content":"《望庐山瀑布》","points":5}
+  ]
+}
+
+我要安排的内容是：（在这里说明你要排什么）`;
+
+  copyText(spec);
+}
+
+function copyText(text, okMsg) {
+  const msg = okMsg || '已复制！去 Claude Code 粘贴就行';
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text)
+      .then(() => alert(msg))
+      .catch(() => fallbackCopy(text, msg));
+  } else {
+    fallbackCopy(text, msg);
+  }
+}
+
+function fallbackCopy(text, msg) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    alert(msg || '已复制！');
+  } catch (e) {
+    prompt('自动复制失败了，长按下面的内容手动复制：', text);
+  }
+  ta.remove();
+}
+
+function doImport() {
+  const box = document.getElementById('importBox');
+  const raw = box.value.trim();
+  if (!raw) { alert('先把内容粘贴进来'); return; }
+
+  let parsed;
+  try {
+    // 容错：去掉 markdown 代码块包裹
+    const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
+    parsed = JSON.parse(cleaned);
+  } catch (e) {
+    alert('格式不对，解析不了。\n检查一下是不是完整的 JSON（要有 { }）');
+    return;
+  }
+
+  if (typeof parsed !== 'object' || Array.isArray(parsed)) {
+    alert('格式不对：最外层应该是 { "日期": [任务...] }');
+    return;
+  }
+
+  const validSubjects = SUBJECTS.map(s => s.id);
+  let dayCount = 0, itemCount = 0;
+  const preview = [];
+
+  for (const [date, items] of Object.entries(parsed)) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      alert(`日期格式不对：「${date}」\n应该是 2026-07-29 这样`);
+      return;
+    }
+    if (!Array.isArray(items)) {
+      alert(`${date} 的内容应该是一个数组`);
+      return;
+    }
+    const normalized = items.map(it => ({
+      id: 'pl_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      subject: validSubjects.includes(it.subject) ? it.subject : 'other',
+      title: String(it.title || '未命名任务').slice(0, 24),
+      content: String(it.content || ''),
+      note: String(it.note || ''),
+      points: Math.max(1, Math.min(99, parseInt(it.points) || 3))
+    }));
+    if (normalized.length === 0) continue;
+    parsed[date] = normalized;
+    dayCount++;
+    itemCount += normalized.length;
+    preview.push(`${friendlyDate(date)}：${normalized.length}项`);
+  }
+
+  if (itemCount === 0) { alert('没解析出任何任务'); return; }
+
+  const existing = Object.keys(parsed).filter(d => (data.schedule[d] || []).length > 0);
+  let mode = 'append';
+  if (existing.length > 0) {
+    mode = confirm(
+      `${existing.map(friendlyDate).join('、')} 已经有安排了。\n\n` +
+      `点「确定」= 替换掉原来的\n点「取消」= 加在原来后面`
+    ) ? 'replace' : 'append';
+  }
+
+  for (const [date, items] of Object.entries(parsed)) {
+    if (!Array.isArray(items) || items.length === 0) continue;
+    if (mode === 'replace' || !data.schedule[date]) {
+      data.schedule[date] = items;
+    } else {
+      data.schedule[date] = data.schedule[date].concat(items);
+    }
+  }
+
+  box.value = '';
+  saveData();
+  render();
+  alert(`导入成功！\n\n${preview.join('\n')}\n共 ${itemCount} 项任务`);
 }
 
 function renderHistory() {
@@ -1668,34 +2715,48 @@ function rollOre() {
 }
 
 // ===== Actions =====
-function toggleQuest(id) {
-  const quest = data.quests.find(q => q.id === id);
-  if (!quest) return;
+function toggleQuest(key) {
+  const task = allTodayTasks().find(t => t.key === key);
+  if (!task) return;
 
-  if (data.todayCompleted[id]) {
-    delete data.todayCompleted[id];
-    data.stars -= quest.points;
-    data.xp -= quest.points;
+  if (data.todayCompleted[key]) {
+    delete data.todayCompleted[key];
+    data.stars -= task.points;
+    data.xp -= task.points;
     if (data.xp < 0) data.xp = 0;
     if (data.stars < 0) data.stars = 0;
     data.history.push({
       date: getToday(),
-      text: '撤销: ' + quest.name,
-      points: -quest.points
+      text: '撤销: ' + task.title,
+      points: -task.points
     });
+    // 复习任务撤销：把排期退回去
+    if (task.isReview) {
+      const r = data.reviewPool.find(x => x.id === task.raw.id);
+      if (r && r.step > 0) {
+        r.step--;
+        r.nextDate = getToday();
+        data.reviewDone = Math.max(0, (data.reviewDone || 0) - 1);
+      }
+    }
     soundUndo();
     updateDailyRecord();
   } else {
-    data.todayCompleted[id] = true;
-    data.stars += quest.points;
-    data.xp += quest.points;
-    data.totalStarsEarned += quest.points;
+    data.todayCompleted[key] = true;
+    data.stars += task.points;
+    data.xp += task.points;
+    data.totalStarsEarned += task.points;
     data.lastActiveDate = getToday();
     data.history.push({
       date: getToday(),
-      text: quest.name,
-      points: quest.points
+      text: task.title,
+      points: task.points
     });
+
+    // 复习任务完成：推进到下一个间隔，或毕业
+    if (task.isReview) {
+      advanceReview(task.raw.id);
+    }
 
     // 挖矿掉落
     const ore = rollOre();
@@ -1707,8 +2768,8 @@ function toggleQuest(id) {
     setTimeout(soundOre, 500);
     showCelebration(
       '&#11088;',
-      `+${quest.points} &#11088;`,
-      quest.name + ' 完成！',
+      `+${task.points} &#11088;`,
+      task.title + ' 完成！',
       `&#9935; 还挖到了 ${ore.emoji} ${ore.name}（${ore.rarity}）！`
     );
 
@@ -1745,6 +2806,33 @@ function toggleQuest(id) {
   saveData();
   render();
   checkAchievements();
+}
+
+// 复习完成 → 推进到下一个间隔，走完四轮就毕业
+function advanceReview(reviewId) {
+  const idx = data.reviewPool.findIndex(r => r.id === reviewId);
+  if (idx === -1) return;
+  const r = data.reviewPool[idx];
+
+  r.step++;
+  data.reviewDone = (data.reviewDone || 0) + 1;
+
+  if (r.step >= REVIEW_STEPS.length) {
+    // 毕业
+    data.reviewPool.splice(idx, 1);
+    data.graduated = (data.graduated || 0) + 1;
+    setTimeout(() => {
+      soundLevelUp();
+      showCelebration(
+        '&#127891;',
+        '牢牢记住啦！',
+        `「${r.title}」复习毕业！`,
+        '&#127881; 复习了4次，这下真的记住了！'
+      );
+    }, 1200);
+  } else {
+    r.nextDate = addDays(getToday(), REVIEW_STEPS[r.step]);
+  }
 }
 
 function checkLevelUp() {
@@ -1921,7 +3009,7 @@ function addQuest() {
 function removeQuest(id) {
   if (!confirm('确定删除这个任务吗？')) return;
   data.quests = data.quests.filter(q => q.id !== id);
-  delete data.todayCompleted[id];
+  delete data.todayCompleted['q_' + id];
   saveData();
   render();
 }
@@ -2009,10 +3097,17 @@ document.getElementById('newQuestName').addEventListener('keydown', e => {
 document.getElementById('newRewardName').addEventListener('keydown', e => {
   if (e.key === 'Enter') addReward();
 });
+document.getElementById('edTitle').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('edContent').focus();
+});
+document.getElementById('edNote').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addPlanItem();
+});
 
 // Init
 render();
 checkAchievements();
+checkIncomingTasks();
 </script>
 </body>
 </html>
